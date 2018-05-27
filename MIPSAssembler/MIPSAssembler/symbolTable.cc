@@ -13,6 +13,8 @@ SymbolTable::SymbolTable() { }
 bool SymbolTable::InsertLabel(Token label, int address)
 {
     string labelName = label.getLexeme();
+    // getting rid of the colon in the definition
+    labelName.pop_back();
     
     if (this->Table.count(labelName) == 0)
     {

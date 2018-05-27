@@ -17,36 +17,41 @@ Assembler::Assembler() : PC{0}
 
 
 
-void Assembler::OutputMachineCode(unsigned int instr)
+void Assembler::OutputMachineCode(unsigned int *instr)
 {
+    if (instr == NULL)
+    {
+        // there is nothing to output 
+        return;
+    }
     std::cout << PC << ": ";
     
-    unsigned char c = instr >> 24;
+    unsigned char c = *instr >> 24;
     
-    c = instr >> 16;
+    c = *instr >> 16;
     std::cout << c;
     
-    c = instr >> 8;
+    c = *instr >> 8;
     std::cout << c;
     
-    c = instr;
+    c = *instr;
     std::cout << instr;
 }
 
 
-int Assembler::Translate(vector<Token> tokenLine)
+unsigned int *Assembler::Translate(vector<Token> tokenLine)
 {
     Token opToken = tokenLine[0];
     Token::Kind tokenKind = opToken.getKind();
     
-    unsigned int instr = -1;
+    unsigned int* instr = NULL;
     
     switch(tokenKind)
     {
         case Token::WORD:
         {
             int i = std::stoi(tokenLine[1].getLexeme());
-            instr =  i; //(0 << 26) | (0 << 21) | (0 << 16) | (0 << 11) | (i & 0xffff);
+            *instr =  i; //(0 << 26) | (0 << 21) | (0 << 16) | (0 << 11) | (i & 0xffff);
             return instr;
         }
             break;
@@ -107,9 +112,15 @@ bool Assembler::IsSyntaxCorrect(vector<Token> tokenLine)
             case Token::LABEL:
             {
                 // add label to symbol table if it is a declaration
-                correctSyntax = this->SymbolTable->InsertLabel(token, PC);
-                
-                // else may be an opcode PC+= 4 (if there is no colon)
+                if (this->SyntaxChecker->IsLabelOP(token))
+                {
+                    PC += 4;
+                    // do other stuff
+                }
+                else
+                {
+                    correctSyntax = this->SymbolTable->InsertLabel(token, PC);
+                }
             }
                 break;
             
@@ -180,15 +191,16 @@ bool Assembler::Analyse()
             {
                 for (auto &printToken: printTokenLine)
                 {
-               //     std::cout << printToken << ' ';
+                    std::cerr << printToken << ' ';
                 }
-               // std::cout << std::endl;
+                std::cerr << std::endl;
             }
-            
-           // this->SymbolTable->Print();
+            this->SymbolTable->Print();
             return false;
         }
     }
+    
+    this->SymbolTable->Print();
     return true; 
 }
 
@@ -197,8 +209,10 @@ void Assembler::Synthesize()
 {
     for (auto &tokenLine : this->Tokens)
     {
-        int machineCode = this->Translate(tokenLine);
+        unsigned int* machineCode = this->Translate(tokenLine);
         this->OutputMachineCode(machineCode);
+        
+        delete machineCode;
        // for (auto &token : tokenLine)
        // {
         //    string lexemme = token.getLexeme();

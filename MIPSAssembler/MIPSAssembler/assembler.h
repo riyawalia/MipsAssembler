@@ -30,8 +30,8 @@ private:
     int PC; 
     
     bool IsSyntaxCorrect(vector<Token> tokenLine);
-    int Translate(vector<Token> tokenLine);
-    void OutputMachineCode(unsigned int instr); 
+    unsigned int *Translate(vector<Token> tokenLine);
+    void OutputMachineCode(unsigned int *instr);
     
 public:
     Assembler();

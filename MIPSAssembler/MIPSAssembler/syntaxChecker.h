@@ -22,6 +22,8 @@ private:
     bool CheckAddSyntax(vector<Token> tokenLine, int i);
     
 public:
+    bool IsLabelOP(Token label);
+    
     bool CheckWordSyntax(vector<Token> tokenLine, int i);
     bool CheckIDSyntax(vector<Token> tokenLine, int i);
     bool CheckRegSyntax(vector<Token> tokenLine, int i);

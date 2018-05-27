@@ -1,1 +1,1 @@
-.word 1
+begin:

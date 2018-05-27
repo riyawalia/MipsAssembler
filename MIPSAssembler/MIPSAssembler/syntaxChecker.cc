@@ -8,6 +8,13 @@
 
 #include "syntaxChecker.h"
 
+bool SyntaxChecker::IsLabelOP(Token label)
+{
+    std::string labelName = label.getLexeme();
+    
+    return labelName [ labelName.length() - 1] != ':';
+    
+}
 bool SyntaxChecker::CheckWordSyntax(vector<Token> tokenLine, int i)
 {
     // Correct Syntax: .WORD INT/HEXINT
