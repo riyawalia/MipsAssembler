@@ -25,16 +25,17 @@ class Assembler
 {
 private:
     vector<vector<Token>> Tokens;
-    SymbolTable *SymbolTable;
-    SyntaxChecker *SyntaxChecker;
+    SymbolTable *symbolTable;
+    SyntaxChecker *syntaxChecker;
     int PC; 
     
     bool IsSyntaxCorrect(vector<Token> tokenLine);
-    unsigned int *Translate(vector<Token> tokenLine);
-    void OutputMachineCode(unsigned int *instr);
+    int Translate(vector<Token> tokenLine);
+    void OutputMachineCode(int instr);
     
 public:
     Assembler();
+    ~Assembler(); 
     
     void AddTokens(vector<Token> tokenLine);
     

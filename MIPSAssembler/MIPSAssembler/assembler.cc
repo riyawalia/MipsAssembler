@@ -10,56 +10,55 @@
 
 Assembler::Assembler() : PC{0}
 {
-    this->SymbolTable = new class SymbolTable();
-    this->SyntaxChecker = new class SyntaxChecker();
+    this->symbolTable = new SymbolTable();
+    this->syntaxChecker = new SyntaxChecker();
    // this->Translator = new class Translator(); 
 }
 
 
 
-void Assembler::OutputMachineCode(unsigned int *instr)
+void Assembler::OutputMachineCode(int instr)
 {
-    if (instr == NULL)
-    {
-        // there is nothing to output 
-        return;
-    }
-    std::cout << PC << ": ";
-    
-    unsigned char c = *instr >> 24;
-    
-    c = *instr >> 16;
-    std::cout << c;
-    
-    c = *instr >> 8;
-    std::cout << c;
-    
-    c = *instr;
-    std::cout << instr;
+    std::cout << char(instr >> 24) << char(instr >> 16) << char (instr >> 8) << char(instr);
 }
 
 
-unsigned int *Assembler::Translate(vector<Token> tokenLine)
+int Assembler::Translate(vector<Token> tokenLine)
 {
     Token opToken = tokenLine[0];
     Token::Kind tokenKind = opToken.getKind();
     
-    unsigned int* instr = NULL;
+    int instr = -1;
     
     switch(tokenKind)
     {
         case Token::WORD:
         {
-            int i = std::stoi(tokenLine[1].getLexeme());
-            *instr =  i; //(0 << 26) | (0 << 21) | (0 << 16) | (0 << 11) | (i & 0xffff);
+            Token::Kind nextTokenKind = tokenLine[1].getKind();
+            string nextTokenLexemme = tokenLine[1].getLexeme();
+            
+            if (nextTokenKind == Token::INT)
+            {
+                instr = std::stoi(nextTokenLexemme);
+            }
+            else if (nextTokenKind == Token::HEXINT)
+            {
+                instr = (int) std::stoul(nextTokenLexemme, 0, 16);
+            }
+          //  instr =  i; //(0 << 26) | (0 << 21) | (0 << 16) | (0 << 11) | (i & 0xffff);
             return instr;
         }
             break;
         case Token::ID:
             break;
         case Token::LABEL:
+        {
+        }
             break;
         case Token::INT:
+        {
+            // for now
+        }
             break;
         case Token::COMMA:
             break;
@@ -68,6 +67,10 @@ unsigned int *Assembler::Translate(vector<Token> tokenLine)
         case Token::RPAREN:
             break;
         case Token::HEXINT:
+        {
+            // for now
+            
+        }
             break;
         case Token::WHITESPACE:
             break;
@@ -105,21 +108,21 @@ bool Assembler::IsSyntaxCorrect(vector<Token> tokenLine)
                 
             case Token::WORD:
             {
-                correctSyntax = SyntaxChecker->CheckWordSyntax(tokenLine, i);
+                correctSyntax = syntaxChecker->CheckWordSyntax(tokenLine, i);
             }
                 break;
                 
             case Token::LABEL:
             {
                 // add label to symbol table if it is a declaration
-                if (this->SyntaxChecker->IsLabelOP(token))
+                if (this->syntaxChecker->IsLabelOP(token))
                 {
                     PC += 4;
                     // do other stuff
                 }
                 else
                 {
-                    correctSyntax = this->SymbolTable->InsertLabel(token, PC);
+                    correctSyntax = this->symbolTable->InsertLabel(token, PC);
                 }
             }
                 break;
@@ -195,12 +198,12 @@ bool Assembler::Analyse()
                 }
                 std::cerr << std::endl;
             }
-            this->SymbolTable->Print();
+            this->symbolTable->Print();
             return false;
         }
     }
     
-    this->SymbolTable->Print();
+    this->symbolTable->Print();
     return true; 
 }
 
@@ -209,16 +212,19 @@ void Assembler::Synthesize()
 {
     for (auto &tokenLine : this->Tokens)
     {
-        unsigned int* machineCode = this->Translate(tokenLine);
-        this->OutputMachineCode(machineCode);
+        int machineCode = this->Translate(tokenLine);
+        Token::Kind tokenKind = tokenLine[0].getKind();
         
-        delete machineCode;
-       // for (auto &token : tokenLine)
-       // {
-        //    string lexemme = token.getLexeme();
-            // Translate(i); for non .word instructions
-         //   OutputMachineCode(std::stoi(lexemme));
-        //}
+        if (tokenKind == Token::WORD || tokenKind == Token::ID)
+        {
+            this->OutputMachineCode(machineCode);
+        }
     }
     
+}
+
+Assembler::~Assembler()
+{
+    delete this->syntaxChecker;
+    delete this->symbolTable; 
 }

@@ -29,3 +29,5 @@ bool SyntaxChecker::CheckWordSyntax(vector<Token> tokenLine, int i)
     
     return correctSyntax;
 }
+
+SyntaxChecker::~SyntaxChecker() { }

@@ -14,7 +14,6 @@
  * prints the scanned list of tokens back to standard output.
  */
 using namespace std;
-bool trace = false;
 
 int main() {
     std::string line;
@@ -26,9 +25,6 @@ int main() {
         {
             std::vector<Token> tokenLine = scan(line);
             assembler->AddTokens(tokenLine);
-            
-            if (trace) std::cout << "scanned a token\n";
-            
         }
     }
     catch (ScanningFailure &f)
@@ -44,6 +40,6 @@ int main() {
         assembler->Synthesize();
     }
     
-
-  return 0;
+    delete assembler;
+    return 0;
 }

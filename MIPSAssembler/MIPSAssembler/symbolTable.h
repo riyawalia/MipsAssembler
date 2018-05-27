@@ -25,6 +25,7 @@ private:
     
 public:
     SymbolTable();
+    ~SymbolTable(); 
     
     bool InsertLabel(Token label, int address);
     void Print(); 

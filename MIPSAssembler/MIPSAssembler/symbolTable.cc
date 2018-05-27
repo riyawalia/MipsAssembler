@@ -65,3 +65,5 @@ void SymbolTable::Print()
     os << "----------------------------------------\n";
     return os;
 } */
+
+SymbolTable::~SymbolTable() { }

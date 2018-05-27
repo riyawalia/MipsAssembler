@@ -1,0 +1,3 @@
+#!/bin/bash
+
+zip -r submit.zip translator.cc translator.h symbolTable.cc symbolTable.h scanner.cc scanner.h asm.cc assembler.cc assembler.h syntaxChecker.cc syntaxChecker.h
