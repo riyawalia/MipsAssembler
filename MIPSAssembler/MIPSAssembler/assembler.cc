@@ -25,6 +25,10 @@ void Assembler::OutputMachineCode(int instr)
 
 int Assembler::Translate(vector<Token> tokenLine)
 {
+    if (tokenLine.size() == 0)
+    {
+        return -1; 
+    }
     Token opToken = tokenLine[0];
     Token::Kind tokenKind = opToken.getKind();
     
@@ -68,7 +72,6 @@ int Assembler::Translate(vector<Token> tokenLine)
             break;
         case Token::HEXINT:
         {
-            // for now
             
         }
             break;
@@ -212,6 +215,10 @@ void Assembler::Synthesize()
 {
     for (auto &tokenLine : this->Tokens)
     {
+        if (tokenLine.size() == 0)
+        {
+            continue;
+        }
         int machineCode = this->Translate(tokenLine);
         Token::Kind tokenKind = tokenLine[0].getKind();
         
