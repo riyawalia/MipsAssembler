@@ -40,7 +40,7 @@
 		93B2FC3620B863B20073D4CE /* syntaxChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = syntaxChecker.h; sourceTree = "<group>"; };
 		93B2FC3820BA0C920073D4CE /* translator.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = translator.cc; sourceTree = "<group>"; };
 		93B2FC3920BA0C920073D4CE /* translator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = translator.h; sourceTree = "<group>"; };
-		93B2FC3C20BC2FC20073D4CE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		93B2FC3D20BC4BA90073D4CE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +73,7 @@
 		93B2FC2020B7AA820073D4CE /* MIPSAssembler */ = {
 			isa = PBXGroup;
 			children = (
-				93B2FC3C20BC2FC20073D4CE /* README.md */,
+				93B2FC3D20BC4BA90073D4CE /* README.md */,
 				93B2FC2A20B7ABDC0073D4CE /* asm.cc */,
 				93B2FC2F20B82EEC0073D4CE /* assembler.cc */,
 				93B2FC3020B82EEC0073D4CE /* assembler.h */,

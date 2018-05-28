@@ -40,6 +40,6 @@ int main() {
         assembler->Synthesize();
     }
     
-    delete assembler;
+    delete assembler; 
     return 0;
 }

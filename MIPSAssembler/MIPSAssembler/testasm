@@ -1,0 +1,8 @@
+#!/bin/bash 
+./asm < tests/$1.asm > tests/$1.mips 2>tests/error.txt
+echo "---------------------------------------------------------------------"
+echo "OUTPUT:"
+echo $(xxd tests/$1.mips)
+echo "STDERR:"
+echo $(cat tests/error.txt)
+echo "---------------------------------------------------------------------"

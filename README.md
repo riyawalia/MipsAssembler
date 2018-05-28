@@ -12,9 +12,16 @@ WordBound
 | BiggerThanMax     | Pass
 | HexBound | | |
 | WordBound | **Fail** | |
-|Blank | **Fail** | |
+|Blank | **Fail** | It creates a file with a newline character. |
 | Public | Pass | n.a | |
-| test | | |
-| test2 | | |
-| test 3| | |
-| tets| | |
+| BlankLines | Pass | |
+
+## Part 2:
+| Test Name             | Status        | Possible Reason                 |
+| ----------                | ------           | ----------                           |
+| LabelsOnly | Pass | |
+| LabelsAndWordOnTheSameLine | **Fail** | Words don't work |
+| LabelsAndWords | **Fail** | Words don't work |
+|MultipleLabels | | |
+|ManyToOneLabels | | |
+| OneToManyLabelsError | | |

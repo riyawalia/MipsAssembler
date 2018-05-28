@@ -17,19 +17,16 @@ Assembler::Assembler() : PC{0}
 
 
 
-void Assembler::OutputMachineCode(int instr)
+void Assembler::OutputMachineCode(int* instruction)
 {
-    // for now
-    if (instr == -1)
-    {
-        return;
-    }
+    int instr = *instruction;
     std::cout << char(instr >> 24) << char(instr >> 16) << char (instr >> 8) << char(instr);
 }
 
-int Assembler::Translate(vector<Token> tokenLine)
+bool Assembler::Translate(vector<Token> tokenLine, int* instr)
 {
-    int instr = -1;
+    // reset
+    *instr = 0;
     for (int i = 0; i < tokenLine.size(); ++i)
     {
         Token opToken = tokenLine[i];
@@ -42,7 +39,7 @@ int Assembler::Translate(vector<Token> tokenLine)
                 if (i + 1 >= tokenLine.size())
                 {
                     this->PrintToError();
-                    return -1;
+                    return false;
                 }
                 
                 Token::Kind nextTokenKind = tokenLine[i + 1].getKind();
@@ -52,29 +49,31 @@ int Assembler::Translate(vector<Token> tokenLine)
                 {
                     try
                     {
-                        instr = std::stoi(nextTokenLexemme);
+                        *instr = std::stoi(nextTokenLexemme);
                     }
                     catch(std::out_of_range &e)
                     {
                         this->PrintToError();
+                        return false;
                     }
                 }
                 else if (nextTokenKind == Token::HEXINT)
                 {
-                    instr = (int) std::stoul(nextTokenLexemme, 0, 16);
+                    *instr = (int) std::stoul(nextTokenLexemme, 0, 16);
                 }
                 else
                 {
                     this->PrintToError();
-                    return -1;
+                    return false;
                 }
-                return instr;
+                return true;
             }
                 break;
             case Token::ID:
                 break;
             case Token::LABEL:
             {
+                // need to translate to address later?
             }
                 break;
             case Token::INT:
@@ -90,7 +89,6 @@ int Assembler::Translate(vector<Token> tokenLine)
                 break;
             case Token::HEXINT:
             {
-                
             }
                 break;
             case Token::WHITESPACE:
@@ -103,7 +101,7 @@ int Assembler::Translate(vector<Token> tokenLine)
         
     }
     
-    return instr;
+    return false;
 }
 
 
@@ -243,12 +241,13 @@ void Assembler::Synthesize()
         {
             continue;
         }
-        int machineCode = this->Translate(tokenLine);
-        Token::Kind tokenKind = tokenLine[0].getKind();
+        int *instr = new int(0); 
+        bool shouldIOutput = this->Translate(tokenLine, instr);
+       // Token::Kind tokenKind = tokenLine[0].getKind();
         
-        if (tokenKind == Token::WORD || tokenKind == Token::ID)
+        if (shouldIOutput == true)
         {
-            this->OutputMachineCode(machineCode);
+            this->OutputMachineCode(instr);
         }
     }
     
