@@ -31,17 +31,18 @@ operand = {ID, WORD, LABELADDRESS};
 | LabelsAndWords | Pass|  |
 |MultipleLabels | Pass| |
 |ManyToOneLabels |Pass | |
-| OneToManyLabelsError | | |
+| OneToManyLabelsError | Pass| |
 |LabelOpThenDef | Pass| |
 |MultipleLabelsWordError |Pass | |
 | LabelAfterWord | Pass | |
 | ManyLabelsManyWords | Pass| Multiple words work when labels are in between them. |
-## Part 3: Add support for label as operands
+## Part 3: Add support for label as operands (11/16)
 | Test Name             | Status        | Comments                 |
 | ----------                | ------           | ----------                           |
 | LabelWord | Pass | Public Test|
-|LabelAfterWord | **FAIL** | |
-|LabelsAndWords | **FAIL** | | 
+|LabelAfterWord | Pass | |
+|LabelsAndWords | Pass | |
+| Blind | **FAIL**| | 
 
 ## Part 4: Add support for jr and jalr
 

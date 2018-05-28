@@ -161,7 +161,8 @@ bool Assembler::IsSyntaxCorrect(vector<Token> tokenLine)
                 // opcode
             case Token::ID:
             {
-                PC += 4;
+                // only if instruction
+               // PC += 4;
             }
                 break;
                 

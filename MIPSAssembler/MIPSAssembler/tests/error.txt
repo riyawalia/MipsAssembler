@@ -1,1 +1,4 @@
+ERROR
+Token(LABEL, begin:) 
+Token(LABEL, begin:) 
 begin 0
