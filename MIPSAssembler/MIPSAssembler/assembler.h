@@ -32,6 +32,7 @@ private:
     bool IsSyntaxCorrect(vector<Token> tokenLine);
     int Translate(vector<Token> tokenLine);
     void OutputMachineCode(int instr);
+    void PrintToError(); 
     
 public:
     Assembler();

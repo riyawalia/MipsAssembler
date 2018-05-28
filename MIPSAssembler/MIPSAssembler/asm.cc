@@ -16,7 +16,7 @@
 using namespace std;
 
 int main() {
-    std::string line;
+    std::string line = "";
     Assembler *assembler = new Assembler();
 
   try

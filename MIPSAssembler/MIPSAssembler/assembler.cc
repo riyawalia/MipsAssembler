@@ -19,69 +19,90 @@ Assembler::Assembler() : PC{0}
 
 void Assembler::OutputMachineCode(int instr)
 {
+    // for now
+    if (instr == -1)
+    {
+        return;
+    }
     std::cout << char(instr >> 24) << char(instr >> 16) << char (instr >> 8) << char(instr);
 }
 
-
 int Assembler::Translate(vector<Token> tokenLine)
 {
-    if (tokenLine.size() == 0)
-    {
-        return -1; 
-    }
-    Token opToken = tokenLine[0];
-    Token::Kind tokenKind = opToken.getKind();
-    
     int instr = -1;
-    
-    switch(tokenKind)
+    for (int i = 0; i < tokenLine.size(); ++i)
     {
-        case Token::WORD:
+        Token opToken = tokenLine[i];
+        Token::Kind tokenKind = opToken.getKind();
+        
+        switch(tokenKind)
         {
-            Token::Kind nextTokenKind = tokenLine[1].getKind();
-            string nextTokenLexemme = tokenLine[1].getLexeme();
-            
-            if (nextTokenKind == Token::INT)
+            case Token::WORD:
             {
-                instr = std::stoi(nextTokenLexemme);
+                if (i + 1 >= tokenLine.size())
+                {
+                    this->PrintToError();
+                    return -1;
+                }
+                
+                Token::Kind nextTokenKind = tokenLine[i + 1].getKind();
+                string nextTokenLexemme = tokenLine[i + 1].getLexeme();
+                
+                if (nextTokenKind == Token::INT)
+                {
+                    try
+                    {
+                        instr = std::stoi(nextTokenLexemme);
+                    }
+                    catch(std::out_of_range &e)
+                    {
+                        this->PrintToError();
+                    }
+                }
+                else if (nextTokenKind == Token::HEXINT)
+                {
+                    instr = (int) std::stoul(nextTokenLexemme, 0, 16);
+                }
+                else
+                {
+                    this->PrintToError();
+                    return -1;
+                }
+                return instr;
             }
-            else if (nextTokenKind == Token::HEXINT)
+                break;
+            case Token::ID:
+                break;
+            case Token::LABEL:
             {
-                instr = (int) std::stoul(nextTokenLexemme, 0, 16);
             }
-          //  instr =  i; //(0 << 26) | (0 << 21) | (0 << 16) | (0 << 11) | (i & 0xffff);
-            return instr;
+                break;
+            case Token::INT:
+            {
+                // for now
+            }
+                break;
+            case Token::COMMA:
+                break;
+            case Token::LPAREN:
+                break;
+            case Token::RPAREN:
+                break;
+            case Token::HEXINT:
+            {
+                
+            }
+                break;
+            case Token::WHITESPACE:
+                break;
+            case Token::REG:
+                break;
+            case Token::COMMENT:
+                break;
         }
-            break;
-        case Token::ID:
-            break;
-        case Token::LABEL:
-        {
-        }
-            break;
-        case Token::INT:
-        {
-            // for now
-        }
-            break;
-        case Token::COMMA:
-            break;
-        case Token::LPAREN:
-            break;
-        case Token::RPAREN:
-            break;
-        case Token::HEXINT:
-        {
-            
-        }
-            break;
-        case Token::WHITESPACE:
-            break;
-        case Token::REG:
-            break;
-        case Token::COMMENT:
-            break;
+        
     }
+    
     return instr;
 }
 
@@ -96,7 +117,6 @@ bool Assembler::IsSyntaxCorrect(vector<Token> tokenLine)
     bool correctSyntax = true;
     for (int i = 0; i < tokenLine.size() && correctSyntax == true; ++i)
     {
-        
         Token token = tokenLine[i];
         Token::Kind tokenKind = token.getKind();
         
@@ -183,6 +203,19 @@ bool Assembler::IsSyntaxCorrect(vector<Token> tokenLine)
     return correctSyntax;
 }
 
+void Assembler::PrintToError()
+{
+    std::cerr << "ERROR" << std::endl;
+    for (auto &printTokenLine: this->Tokens)
+    {
+        for (auto &printToken: printTokenLine)
+        {
+            std::cerr << printToken << ' ';
+        }
+        std::cerr << std::endl;
+    }
+    this->symbolTable->Print();
+}
 // Pass 1: Analyse() is called when the text file has been read.
 // Checks for errors
 // If error is found, intermediate representation and symbol table is outputted
@@ -192,16 +225,7 @@ bool Assembler::Analyse()
     {
         if (this->IsSyntaxCorrect(tokenLine) == false)
         {
-            std::cerr << "ERROR" << std::endl;
-            for (auto &printTokenLine: this->Tokens)
-            {
-                for (auto &printToken: printTokenLine)
-                {
-                    std::cerr << printToken << ' ';
-                }
-                std::cerr << std::endl;
-            }
-            this->symbolTable->Print();
+            this->PrintToError();
             return false;
         }
     }

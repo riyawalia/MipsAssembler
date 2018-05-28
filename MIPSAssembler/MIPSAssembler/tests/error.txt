@@ -1,0 +1,8 @@
+ERROR
+Token(WORD, .word) Token(INT, 2147483648) 
+Token(WORD, .word) Token(INT, -2147483648) 
+Token(WORD, .word) Token(INT, 4294967295) 
+ERROR
+Token(WORD, .word) Token(INT, 2147483648) 
+Token(WORD, .word) Token(INT, -2147483648) 
+Token(WORD, .word) Token(INT, 4294967295) 
