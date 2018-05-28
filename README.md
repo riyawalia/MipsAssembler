@@ -1,6 +1,8 @@
-# Instruction Format
-
-## labelDefinition(s) operand comma [parameters] comment
+## Instruction format
+```c
+string correctFormat = labelDefinition(s) operand comma [parameters] comment;
+operand = {ID, WORD, LABELADDRESS}; 
+```
 
 # Tests
 ## Part 1: Add support for .word
