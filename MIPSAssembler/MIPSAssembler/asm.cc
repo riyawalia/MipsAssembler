@@ -24,7 +24,11 @@ int main() {
         while (getline(std::cin, line))
         {
             std::vector<Token> tokenLine = scan(line);
-            assembler->AddTokens(tokenLine);
+            if (tokenLine.size() != 0)
+            {
+                assembler->AddTokens(tokenLine);
+            }
+            
         }
     }
     catch (ScanningFailure &f)

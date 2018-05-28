@@ -24,8 +24,9 @@ bool SyntaxChecker::CheckWordSyntax(vector<Token> tokenLine, int i)
     {
         Token::Kind nextTokenKind = tokenLine[i + 1].getKind();
         
-        correctSyntax = ((nextTokenKind == Token::INT) || (nextTokenKind == Token::HEXINT)) ;
+        correctSyntax = ((nextTokenKind == Token::INT) || (nextTokenKind == Token::HEXINT)) && (tokenLine.size() == i + 2);
     }
+    
     
     return correctSyntax;
 }

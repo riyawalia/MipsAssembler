@@ -7,17 +7,23 @@ WordBound
 
 # [ Tests ]
 ## Part 1:
-| Test Name             | Status        | Possible Reason                 |
+| Test Name             | Status        | Comments                 |
 | ----------                | ------           | ----------                           |
 | BiggerThanMax     | Pass
+|Max | Pass| |
 | HexBound | | |
-| WordBound | **Fail** | |
-|Blank | **Fail** | It creates a file with a newline character. |
-| Public | Pass | n.a | |
+| WordBound | **Fail** | INT_MAX  is missing left most bytes but individually it passes  |
+|Blank | **Fail** | It creates a file with a newline character but it should not be creating a file. |
+| Public | Pass |  | |
 | BlankLines | Pass | |
+|TooManyInt | Pass | .word 5 5 is wrong |
+| LabelAfterWord | Pass | |
+|AfterParseError | Pass | Program should not output after. |
+|Invalid Instruction |**Fail** | |
+| NoSpace | **Pass** | |
 
 ## Part 2:
-| Test Name             | Status        | Possible Reason                 |
+| Test Name             | Status        | Comments                 |
 | ----------                | ------           | ----------                           |
 | LabelsOnly | Pass | |
 | LabelsAndWordOnTheSameLine | **Fail** | Words don't work |
