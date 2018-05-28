@@ -11,28 +11,30 @@ operand = {ID, WORD, LABELADDRESS};
 | BiggerThanMax     | Pass
 |Max | Pass| |
 | HexBound | | |
-| WordBound | **Fail** | INT_MAX  is missing left most bytes but individually it passes  |
-|Blank | **Fail** | It creates a file with a newline character but it should not be creating a file. |
+| WordBound | **FAIL** | INT_MAX  is missing left most bytes but individually it passes  |
+|Blank | **FAIL** | It creates a file with a newline character but it should not be creating a file. |
 | Public | Pass |  | |
 | BlankLines | Pass | |
 |TooManyInt | Pass | .word 5 5 is wrong |
-| LabelAfterWord | Pass | |
 |AfterParseError | Pass | Program should not output after. |
 |Invalid Instruction |Pass | after CheckInstructionFormat( ) |
 | NoSpace | Pass | |
 | RandomParen | Pass |Be more strict with MIPS command syntax. |
-|MultipleLabelsWordError |Pass | |
+| MultipleWords |**FAIL** | Third word does not output properly. |
 
 ## Part 2: Add support for label definitions
 | Test Name             | Status        | Comments                 |
 | ----------                | ------           | ----------                           |
 | LabelsOnly | Pass | |
-| LabelsAndWordOnTheSameLine | **Fail** | |
+| LabelAndWordsOnTheSameLine | **FAIL** | This is showing an error. |
 | LabelsAndWords | Pass|  |
-|MultipleLabels | **Fail**| PC is not updating |
+|MultipleLabels | Pass| |
 |ManyToOneLabels |Pass | |
 | OneToManyLabelsError | | |
 |LabelOpThenDef | Pass| |
+|MultipleLabelsWordError |Pass | |
+| LabelAfterWord | Pass | |
+| ManyLabelsManyWords | Pass| Multiple words work when labels are in between them. |
 ## Part 3: Add support for label as operands
 
 ## Part 4: Add support for jr and jalr

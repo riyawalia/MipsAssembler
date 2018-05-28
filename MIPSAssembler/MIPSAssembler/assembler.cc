@@ -135,6 +135,7 @@ bool Assembler::IsSyntaxCorrect(vector<Token> tokenLine)
             case Token::WORD:
             {
                 correctSyntax = syntaxChecker->CheckWordSyntax(tokenLine, i);
+                if (correctSyntax) PC += 4; 
             }
                 break;
                 
