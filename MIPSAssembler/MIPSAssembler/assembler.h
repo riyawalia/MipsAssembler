@@ -27,12 +27,16 @@ private:
     vector<vector<Token>> Tokens;
     SymbolTable *symbolTable;
     SyntaxChecker *syntaxChecker;
-    int PC; 
+    unsigned long int PC;
     
     bool IsSyntaxCorrect(vector<Token> tokenLine);
+    
     bool Translate(vector<Token> tokenLine, int* instr);
     void OutputMachineCode(int* instruction);
-    void PrintToError(); 
+    void OutputMachineCode(unsigned int* instruction);
+    void PrintToError();
+    
+   // bool TranslateWordForInt(vector<Tok)
     
 public:
     Assembler();

@@ -1,3 +1,16 @@
-begin:
-.word 5
-end:
+a:
+
+b:
+.word e
+c:
+.word a
+.word f
+
+d:
+
+.word c
+
+.word b
+e:
+
+f:

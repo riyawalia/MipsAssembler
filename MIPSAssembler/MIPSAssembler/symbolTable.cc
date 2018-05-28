@@ -10,7 +10,7 @@
 SymbolTable::SymbolTable() { }
 
 // returns true if label was inserted successfully, false if it already existed 
-bool SymbolTable::InsertLabel(Token label, int address)
+bool SymbolTable::InsertLabel(Token label, unsigned long address)
 {
     string labelName = label.getLexeme();
     // getting rid of the colon in the definition
@@ -24,6 +24,14 @@ bool SymbolTable::InsertLabel(Token label, int address)
     return false;
 }
 
+unsigned int* SymbolTable::GetAddressIfExists(string labelName)
+{
+    if (this->Table.count(labelName) > 0)
+    {
+        return new unsigned (this->Table[labelName]);
+    }
+    return NULL;
+}
 void SymbolTable::Print()
 {
     for (auto &pair : this->Table)

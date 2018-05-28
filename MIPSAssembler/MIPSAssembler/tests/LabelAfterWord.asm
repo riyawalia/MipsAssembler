@@ -1,1 +1,2 @@
-.word 5 start:
+.word label
+label:

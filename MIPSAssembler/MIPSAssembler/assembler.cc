@@ -16,17 +16,21 @@ Assembler::Assembler() : PC{0}
 }
 
 
-
-void Assembler::OutputMachineCode(int* instruction)
+void Assembler::OutputMachineCode(int *instruction)
 {
     int instr = *instruction;
     std::cout << char(instr >> 24) << char(instr >> 16) << char (instr >> 8) << char(instr);
 }
 
+void Assembler::OutputMachineCode(unsigned int *instruction)
+{
+    unsigned int instr = *instruction;
+    std::cout << char(instr >> 24) << char(instr >> 16) << char (instr >> 8) << char(instr);
+}
+
+
 bool Assembler::Translate(vector<Token> tokenLine, int* instr)
 {
-    // reset
-    *instr = 0;
     for (int i = 0; i < tokenLine.size(); ++i)
     {
         Token opToken = tokenLine[i];
@@ -50,16 +54,45 @@ bool Assembler::Translate(vector<Token> tokenLine, int* instr)
                     try
                     {
                         *instr = std::stoi(nextTokenLexemme);
+                        return true;
                     }
                     catch(std::out_of_range &e)
                     {
-                        this->PrintToError();
-                        return false;
+                        unsigned int *unsignedInstr = new unsigned int();
+                        try
+                        {
+                            *unsignedInstr = std::stoul(nextTokenLexemme);
+                            
+                            this->OutputMachineCode(unsignedInstr);
+                            return false;
+                        }
+                        catch(std::out_of_range &exp)
+                        {
+                            this->PrintToError();
+                            return false;
+                        }
                     }
                 }
                 else if (nextTokenKind == Token::HEXINT)
                 {
                     *instr = (int) std::stoul(nextTokenLexemme, 0, 16);
+                    return true; 
+                }
+                else if(nextTokenKind == Token::ID)
+                {
+                    unsigned int *unsignedInstr = new unsigned int();
+                    try
+                    {
+                        unsignedInstr = this->symbolTable->GetAddressIfExists(nextTokenLexemme); //[nextTokenLexemme];
+                        
+                        this->OutputMachineCode(unsignedInstr);
+                        return false;
+                    }
+                    catch(std::out_of_range &exp)
+                    {
+                        this->PrintToError();
+                        return false;
+                    }
                 }
                 else
                 {
@@ -247,7 +280,7 @@ void Assembler::Synthesize()
         {
             continue;
         }
-        int *instr = new int(0); 
+        int* instr = new int(0);
         bool shouldIOutput = this->Translate(tokenLine, instr);
        // Token::Kind tokenKind = tokenLine[0].getKind();
         

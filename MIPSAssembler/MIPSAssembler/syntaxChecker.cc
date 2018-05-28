@@ -10,6 +10,10 @@
 
 bool SyntaxChecker::IsLabelOP(Token label)
 {
+    if (label.getKind() != Token::LABEL)
+    {
+        return false;
+    }
     std::string labelName = label.getLexeme();
     
     return labelName [ labelName.length() - 1] != ':';
@@ -36,17 +40,12 @@ bool SyntaxChecker::CheckWordSyntax(vector<Token> tokenLine, int i)
     
     if (correctSyntax)
     {
-        Token::Kind nextTokenKind = tokenLine[i + 1].getKind();
+        Token nextToken = tokenLine[i + 1];
+        Token::Kind nextTokenKind = nextToken.getKind();
         
-        correctSyntax = ((nextTokenKind == Token::INT) || (nextTokenKind == Token::HEXINT)) && (tokenLine.size() == i + 2);
-        
-        if (i != 0)
-        {
-            for (int j = i; j > -1 && correctSyntax == true; j--)
-            {
-                correctSyntax = correctSyntax && (tokenLine[j].getKind() == Token::Kind::LABEL);
-            }
-        }
+        correctSyntax = ((nextTokenKind == Token::ID) || (nextTokenKind == Token::INT) || (nextTokenKind == Token::HEXINT));
+        // if comment, then last
+        correctSyntax = (i + 3 < tokenLine.size())?  tokenLine[i + 3].getKind() == Token::COMMENT : correctSyntax;
     }
     
     
@@ -81,6 +80,7 @@ bool SyntaxChecker::CheckInstructionFormat(vector<Token> tokenLine)
     // possible op: .word, ID, non label definition
     if (labelsEnd  + 1 < tokenLine.size())
     {
+        // INCLUDE SUPPORT FOR .WORD LABEL
         Token nextToken = tokenLine[labelsEnd + 1];
         Token::Kind nextTokenKind = tokenLine[labelsEnd + 1].getKind();
         
@@ -93,9 +93,13 @@ bool SyntaxChecker::CheckInstructionFormat(vector<Token> tokenLine)
         {
             Token token = tokenLine[j];
             Token::Kind tokenKind = token.getKind();
-            if (tokenKind == Token::Kind::COMMENT && j != tokenLine.size() - 1)
+            if (tokenKind == Token::Kind::COMMENT && j == tokenLine.size() - 1)
             {
-                result = false;
+                result = true;
+            }
+            else if(tokenKind == Token::Kind::ID)
+            {
+                result = true;
             }
             else if (IsTokenOP(token))
             {

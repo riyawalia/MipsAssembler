@@ -21,17 +21,18 @@ using namespace std;
 class SymbolTable
 {
 private:
-    map<string, int> Table;
+    map<string, unsigned long int> Table;
     
 public:
     SymbolTable();
     ~SymbolTable(); 
     
-    bool InsertLabel(Token label, int address);
+    bool InsertLabel(Token label, unsigned long int address);
+    unsigned int* GetAddressIfExists (string labelName);
     void Print(); 
     
-  //  friend ostream& operator << (ostream &os, const SymbolTable &st);
 };
 
 
 #endif /* symbolTable_h */
+

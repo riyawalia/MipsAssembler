@@ -1,1 +1,1 @@
-begin: start: .word 5
+start: .word 5
