@@ -1,12 +1,7 @@
-# [ Possible Problems ]
+# Assembler
 
-What if instr is -1? Figure out another way to turn off translating without using pointers. Make tokenLine a vector of pair<Token,  bool>?
-Check for HexBound
-Memory leaks!!
-WordBound
-
-# [ Tests ]
-## Part 1:
+# Tests
+## Part 1: Add support for .word
 | Test Name             | Status        | Comments                 |
 | ----------                | ------           | ----------                           |
 | BiggerThanMax     | Pass
@@ -19,10 +14,12 @@ WordBound
 |TooManyInt | Pass | .word 5 5 is wrong |
 | LabelAfterWord | Pass | |
 |AfterParseError | Pass | Program should not output after. |
-|Invalid Instruction |**Fail** | |
-| NoSpace | **Pass** | |
+|Invalid Instruction |**Fail** | There should not be any output. |
+| NoSpace | Pass | |
+| RandomParen | Pass |Be more strict with MIPS command syntax. |
+|MultipleLabelsWordError |Pass | |
 
-## Part 2:
+## Part 2: Add support for label definitions
 | Test Name             | Status        | Comments                 |
 | ----------                | ------           | ----------                           |
 | LabelsOnly | Pass | |
@@ -31,3 +28,5 @@ WordBound
 |MultipleLabels | | |
 |ManyToOneLabels | | |
 | OneToManyLabelsError | | |
+
+## Part 3: Add support for label as operands

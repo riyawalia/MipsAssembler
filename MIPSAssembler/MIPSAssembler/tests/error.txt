@@ -1,0 +1,2 @@
+ERROR
+Token(LPAREN, () Token(WORD, .word) Token(INT, 5) 
