@@ -1,0 +1,60 @@
+#!/bin/bash
+
+#Error handling incorrect number of command line arguments:
+if [ ${#} -ne 2 ]; then
+	
+        echo "Number of arguements supplied on the command line is not exactly 2." >&2
+	echo "Usage: ./runSuite testsuite.txt ./programToTest" >&2
+        exit 1
+fi
+
+numFailed=0
+#Iterating over each test in testSuite:
+for testName in $(cat ${1}); do
+
+        tempFile=$(mktemp)
+
+	#Error handling .out file:
+	if [ ! -r "${testName}.mips" ]; then 
+		echo "Corresponding .out file for $testName doesn't exist or is unreadable." >&2
+		rm "${tempFile}"
+		exit 1
+	fi
+
+	#Supplying .args if the file exists
+        if [ -e "${testName}.args" ]; then
+		input=""
+		#Supplying .in if the file exists
+		if [ -e "${testName}.in" ]; then 
+			${2} $(cat "${testName}.args") < ${testName}.in > "${tempFile}"
+			input="$(cat ${testName}.in)\n"
+		else
+		${2} $(cat "${testName}.args") > "${tempFile}"
+		fi
+		#Checking correct output
+		diff "${testName}.out" "${tempFile}" > /dev/null 
+		if [ ${?} -ne 0 ]; then
+               		((numFailed++)) 
+			echo -e "Test failed: ${testName}\nArgs:\n$(cat "${testName}.args")\nInput:\n${input}Expected:\n$(cat "${testName}.out")\nActual:\n$(cat "${tempFile}")"
+		fi
+	#The .args file doesn't exist
+        else
+		#Supplying .in if the file exists 
+		input=""
+		if [ -e "${testName}.asm" ]; then 
+			${2} < ${testName}.asm > "${tempFile}.mips"
+			input="$(cat ${testName}.asm)\n"
+		else
+               		${2} > "${tempFile}.mips"
+		fi
+		#Checking correct output
+		diff "${testName}.mips" "${tempFile}.mips" > /dev/null 
+       		 if [ ${?} -ne 0 ]; then
+			((numFailed++))  
+                	echo -e "Test failed: ${testName}\nArgs:\nInput:\n${input}Expected:\n$(xxd  "${testName}.mips")\nActual:\n$(cat "${tempFile}.mips")"
+       		 fi
+	fi
+
+	rm "${tempFile}"
+done 
+echo -e "NUMBER OF TESTS FAILED: ${numFailed}"

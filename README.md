@@ -1,4 +1,6 @@
-# Assembler
+# Instruction Format
+
+## labelDefinition(s) operand comma [parameters] comment
 
 # Tests
 ## Part 1: Add support for .word
@@ -14,7 +16,7 @@
 |TooManyInt | Pass | .word 5 5 is wrong |
 | LabelAfterWord | Pass | |
 |AfterParseError | Pass | Program should not output after. |
-|Invalid Instruction |**Fail** | There should not be any output. |
+|Invalid Instruction |Pass | after CheckInstructionFormat( ) |
 | NoSpace | Pass | |
 | RandomParen | Pass |Be more strict with MIPS command syntax. |
 |MultipleLabelsWordError |Pass | |
@@ -28,5 +30,5 @@
 |MultipleLabels | | |
 |ManyToOneLabels | | |
 | OneToManyLabelsError | | |
-
+|LabelOpThenDef | Pass| |
 ## Part 3: Add support for label as operands

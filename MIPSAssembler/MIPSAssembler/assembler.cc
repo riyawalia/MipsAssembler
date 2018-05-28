@@ -112,7 +112,12 @@ void Assembler::AddTokens(vector<Token> tokenLine)
 
 bool Assembler::IsSyntaxCorrect(vector<Token> tokenLine)
 {
-    bool correctSyntax = true;
+    bool correctSyntax = syntaxChecker->CheckInstructionFormat(tokenLine);
+    if (correctSyntax == false)
+    {
+        return false;
+    }
+    
     for (int i = 0; i < tokenLine.size() && correctSyntax == true; ++i)
     {
         Token token = tokenLine[i];

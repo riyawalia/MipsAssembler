@@ -20,10 +20,12 @@ class SyntaxChecker
 {
 private:
     bool CheckAddSyntax(vector<Token> tokenLine, int i);
+    bool IsTokenOP(Token token); 
     
 public:
     ~SyntaxChecker();
     
+    bool CheckInstructionFormat(vector<Token> tokenLine); 
     bool IsLabelOP(Token label);
     
     bool CheckWordSyntax(vector<Token> tokenLine, int i);

@@ -1,8 +1,10 @@
 #!/bin/bash 
-./asm < tests/$1.asm > tests/$1.mips 2>tests/error.txt
+./asm < $1.asm > $1.mips 2>tests/error.txt
 echo "---------------------------------------------------------------------"
+echo "INPUT"
+echo $(cat $1.asm)
 echo "OUTPUT:"
-echo $(xxd tests/$1.mips)
+echo $(xxd $1.mips)
 echo "STDERR:"
 echo $(cat tests/error.txt)
 echo "---------------------------------------------------------------------"

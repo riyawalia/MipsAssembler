@@ -30,19 +30,20 @@ int main() {
             }
             
         }
+        
+        bool success = assembler->Analyse();
+        if (success)
+        {
+            assembler->Synthesize();
+        }
+        
     }
     catch (ScanningFailure &f)
         {
-            std::cout << "ERROR\n";
             std::cerr << f.what() << std::endl;
             return 1;
         }
     
-    bool success = assembler->Analyse();
-    if (success)
-    {
-        assembler->Synthesize();
-    }
     
     delete assembler; 
     return 0;
