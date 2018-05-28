@@ -1,7 +1,7 @@
 ## Instruction format
 ```c
 string correctFormat = labelDefinition(s) operand comma [parameters] comment;
-operand = {ID, WORD, LABELADDRESS}; 
+operand = {ID, WORD, LABELADDRESS};
 ```
 
 # Tests
@@ -27,10 +27,14 @@ operand = {ID, WORD, LABELADDRESS};
 | Test Name             | Status        | Comments                 |
 | ----------                | ------           | ----------                           |
 | LabelsOnly | Pass | |
-| LabelsAndWordOnTheSameLine | **Fail** | Words don't work |
-| LabelsAndWords | **Fail** | Words don't work |
-|MultipleLabels | | |
-|ManyToOneLabels | | |
+| LabelsAndWordOnTheSameLine | **Fail** | |
+| LabelsAndWords | Pass|  |
+|MultipleLabels | **Fail**| PC is not updating |
+|ManyToOneLabels |Pass | |
 | OneToManyLabelsError | | |
 |LabelOpThenDef | Pass| |
 ## Part 3: Add support for label as operands
+
+## Part 4: Add support for jr and jalr
+
+## Part 5: Add support for add, sub, slt, multuW

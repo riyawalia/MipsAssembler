@@ -1,2 +1,3 @@
-ERROR
-Token(WORD, .word) Token(INT, 5) Token(INT, 5) 
+begin 0
+end 0
+loop 0
