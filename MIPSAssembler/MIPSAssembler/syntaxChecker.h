@@ -31,6 +31,10 @@ public:
     bool CheckWordSyntax(vector<Token> tokenLine, int i);
     bool CheckIDSyntax(vector<Token> tokenLine, int i);
     bool CheckRegSyntax(vector<Token> tokenLine, int i);
+    bool CheckJumpsSyntax(vector<Token> tokenLine, int i);
+    bool CheckTripleArithmeticSyntax(vector<Token> tokenLine, int i);
+    
+    int* GetRegisterValue(Token reg);
 };
 
 #endif /* syntaxChecker_h */

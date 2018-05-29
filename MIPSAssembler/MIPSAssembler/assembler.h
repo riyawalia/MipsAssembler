@@ -36,7 +36,11 @@ private:
     void OutputMachineCode(unsigned int* instruction);
     void PrintToError();
     
-   // bool TranslateWordForInt(vector<Tok)
+    /* Translators */
+    int TranslateJumps(vector<Token> tokenLine, int i);
+    int TranslateTripleArithmetoc(vector<Token> tokenLine, int i); 
+    
+    
     
 public:
     Assembler();

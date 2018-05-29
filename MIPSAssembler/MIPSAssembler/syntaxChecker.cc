@@ -52,6 +52,40 @@ bool SyntaxChecker::CheckWordSyntax(vector<Token> tokenLine, int i)
     return correctSyntax;
 }
 
+bool SyntaxChecker::CheckJumpsSyntax(vector<Token> tokenLine, int i)
+{
+    bool result = (i + 1 == tokenLine.size() - 1);
+    if (result)
+    {
+        int *reg = this->GetRegisterValue(tokenLine[i + 1]);
+        result = reg != NULL; 
+    }
+    
+    return result;
+}
+
+int* SyntaxChecker::GetRegisterValue(Token reg)
+{
+    int * value = new int();
+    if(reg.getKind() != Token::Kind::REG)
+    {
+        return NULL;
+    }
+    string lexemme = reg.getLexeme();
+    if (lexemme[0] != '$')
+    {
+        return NULL;
+    }
+    lexemme.erase(0, 1);
+    value = new int(stoi(lexemme));
+    
+    if (*value >= 0 && *value <= 31)
+    {
+        return value;
+    }
+    return NULL;
+}
+/* LABEL .WORD/ID ... COMMENT */
 bool SyntaxChecker::CheckInstructionFormat(vector<Token> tokenLine)
 {
     if (tokenLine.size() == 0)
@@ -80,28 +114,28 @@ bool SyntaxChecker::CheckInstructionFormat(vector<Token> tokenLine)
     // possible op: .word, ID, non label definition
     if (labelsEnd  + 1 < tokenLine.size())
     {
-        // INCLUDE SUPPORT FOR .WORD LABEL
         Token nextToken = tokenLine[labelsEnd + 1];
         Token::Kind nextTokenKind = tokenLine[labelsEnd + 1].getKind();
         
         result = IsTokenOP(nextToken) || (nextTokenKind == Token::Kind::COMMENT && (labelsEnd + 2) == tokenLine.size());
         
         // make sure if comment then last
-        // there can be no label definitions, .word op, id op
+        // there can be no label definitions, .word op
+        // there can only be ID, register, rparen, lparen, comma, int, hexint, white space,
         
         for (int j = labelsEnd + 2; j < tokenLine.size() && result == true; ++j)
         {
             Token token = tokenLine[j];
             Token::Kind tokenKind = token.getKind();
-            if (tokenKind == Token::Kind::COMMENT && j == tokenLine.size() - 1)
+            if (tokenKind == Token::Kind::COMMENT)
             {
-                result = true;
+                result = j == tokenLine.size() - 1;
             }
-            else if(tokenKind == Token::Kind::ID)
+            else if (tokenKind == Token::Kind::LABEL)
             {
-                result = true;
+                result = false;
             }
-            else if (IsTokenOP(token))
+            else if (tokenKind == Token::Kind::WORD)
             {
                 result = false;
             }

@@ -12,7 +12,7 @@ numFailed=0
 #Iterating over each test in testSuite:
 for testName in $(cat ${1}); do
 
-        tempFile=$(mktemp)
+        tempFile="temp"
 
 	#Error handling .out file:
 	if [ ! -r "${testName}.mips" ]; then 
@@ -42,19 +42,19 @@ for testName in $(cat ${1}); do
 		#Supplying .in if the file exists 
 		input=""
 		if [ -e "${testName}.asm" ]; then 
-			${2} < ${testName}.asm > "${tempFile}.mips"
+			${2} < "${testName}.asm" > "${tempFile}.mips"
 			input="$(cat ${testName}.asm)\n"
 		else
                		${2} > "${tempFile}.mips"
 		fi
 		#Checking correct output
-		diff "${testName}.mips" "${tempFile}.mips" > /dev/null 
+		cmp "${testName}.mips" "${tempFile}.mips" > /dev/null 
        		 if [ ${?} -ne 0 ]; then
 			((numFailed++))  
-                	echo -e "Test failed: ${testName}\nArgs:\nInput:\n${input}Expected:\n$(xxd  "${testName}.mips")\nActual:\n$(cat "${tempFile}.mips")"
+                	echo -e "Test failed: ${testName}\nArgs:\nInput:\n${input}Expected:\n$(xxd  "${testName}.mips")\nActual:\n$(xxd "${tempFile}.mips")"
        		 fi
 	fi
 
-	rm "${tempFile}"
+	rm "${tempFile}.mips"
 done 
 echo -e "NUMBER OF TESTS FAILED: ${numFailed}"

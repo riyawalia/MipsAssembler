@@ -13,7 +13,7 @@ operand = {ID, WORD, LABELADDRESS};
 | HexBound | | |
 | WordBound | Pass | This is failing because unsigned int_max is not an error, but your program doesn't account for it. |
 |Blank | Pass | |
-|Blind |**FAIL** | No information |
+|Blind |Pass| No information |
 | Public | Pass |  | |
 | BlankLines | Pass | |
 |TooManyInt | Pass | .word 5 5 is wrong |
@@ -22,6 +22,7 @@ operand = {ID, WORD, LABELADDRESS};
 | NoSpace | Pass | |
 | RandomParen | Pass |Be more strict with MIPS command syntax. |
 | MultipleWords |Pass |  |
+| Blind | **FAIL** | But this tests passes in submission #10 | 
 
 ## Part 2: Add support for label definitions (16/16)
 | Test Name             | Status        | Comments                 |
@@ -42,8 +43,16 @@ operand = {ID, WORD, LABELADDRESS};
 | LabelWord | Pass | Public Test|
 |LabelAfterWord | Pass | |
 |LabelsAndWords | Pass | |
-| Blind | **FAIL**| | 
+| Blind | **FAIL**| |
+|LabelLabelOnlly | | label: otherlabel |
 
-## Part 4: Add support for jr and jalr
+## Part 4: Add support for jr and jalr (4/8)
+| Test Name             | Status        | Comments                 |
+| ----------                | ------           | ----------                           |
+|JrJalr |Pass | Public test |
+|Blind |**FAIL** | |
+|Jump| Pass | |
+|JumpAndLink| Pass | |
+|Register| Pass | |
 
 ## Part 5: Add support for add, sub, slt, multuW

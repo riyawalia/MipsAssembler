@@ -15,7 +15,7 @@ Assembler::Assembler() : PC{0}
    // this->Translator = new class Translator(); 
 }
 
-
+/* OUTPUT */
 void Assembler::OutputMachineCode(int *instruction)
 {
     int instr = *instruction;
@@ -28,7 +28,7 @@ void Assembler::OutputMachineCode(unsigned int *instruction)
     std::cout << char(instr >> 24) << char(instr >> 16) << char (instr >> 8) << char(instr);
 }
 
-
+/* TRANSLATORS */
 bool Assembler::Translate(vector<Token> tokenLine, int* instr)
 {
     for (int i = 0; i < tokenLine.size(); ++i)
@@ -103,6 +103,14 @@ bool Assembler::Translate(vector<Token> tokenLine, int* instr)
             }
                 break;
             case Token::ID:
+            {
+                string lexemme = tokenLine[i].getLexeme();
+                if (lexemme == "jr" || lexemme == "jalr")
+                {
+                    *instr = this->TranslateJumps(tokenLine, i);
+                    return true;
+                }
+            }
                 break;
             case Token::LABEL:
             {
@@ -137,7 +145,21 @@ bool Assembler::Translate(vector<Token> tokenLine, int* instr)
     return false;
 }
 
+int Assembler::TranslateJumps(vector<Token> tokenLine, int i)
+{
+    string op = tokenLine[i].getLexeme();
+    int opCode = 0;
+    int funCode = (op == "jr")? 8 : 9;
+    
+    int *regValue = this->syntaxChecker->GetRegisterValue(tokenLine[i + 1]);
 
+    int instr = opCode << 26 | *regValue << 21 | funCode;
+    
+    return instr;
+}
+/* HELPERS */
+
+/* SYNTAX CHECKER */
 void Assembler::AddTokens(vector<Token> tokenLine)
 {
     this->Tokens.emplace_back(tokenLine);
@@ -158,11 +180,17 @@ bool Assembler::IsSyntaxCorrect(vector<Token> tokenLine)
         
         switch(tokenKind)
         {
-                // opcode
             case Token::ID:
             {
-                // only if instruction
-               // PC += 4;
+                PC += 4;
+
+                string lexemme = tokenLine[i].getLexeme();
+                if (lexemme == "jr" || lexemme == "jalr")
+                {
+                    correctSyntax = this->syntaxChecker->CheckJumpsSyntax(tokenLine, i);
+                    return correctSyntax; 
+                }
+                
             }
                 break;
                 
