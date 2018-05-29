@@ -101,35 +101,40 @@ bool Assembler::Translate(vector<Token> tokenLine, unsigned int* instr)
                 break;
             case Token::ID:
             {
-                PC += 4;
                 string lexemme = tokenLine[i].getLexeme();
                 if (lexemme == "jr" || lexemme == "jalr")
                 {
+                    PC += 4;
                     *instr = this->TranslateJumps(tokenLine, i);
                     return true;
                 }
                 else if (this->IsTokenTripleArithmetic(opToken))
                 {
+                    PC += 4;
                     *instr = this->TranslateTripleArithmetic(tokenLine,i);
                     return true;
                 }
                 else if (this->IsTokenEquality(opToken))
                 {
+                    PC += 4;
                     bool result = this->TranslateEquality(tokenLine,i, instr);
                     return result;
                 }
                 else if (this->IsTokenMoves(opToken))
                 {
+                    PC += 4;
                     bool result = this->TranslateMoves(tokenLine, i, instr);
                     return result;
                 }
                 else if (this->IsTokenDoubleArithmetic(tokenLine[i]))
                 {
+                    PC += 4;
                     bool result = this->TranslateDoubleArithmetic(tokenLine, i,instr);
                     return result; 
                 }
                 else if (this->IsTokenLoadAndStore(tokenLine[i]))
                 {
+                    PC += 4;
                     bool result = this->TranslateLoadAndStore(tokenLine,i, instr);
                     return result; 
                 }
@@ -596,7 +601,7 @@ bool Assembler::Analyse()
 void Assembler::Synthesize()
 {
     // reset PC
-    PC = 0;
+    PC = -4;
     
     for (auto &tokenLine : this->Tokens)
     {

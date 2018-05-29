@@ -1,0 +1,1 @@
+begin: .word 5
