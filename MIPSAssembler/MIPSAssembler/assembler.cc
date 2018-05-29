@@ -34,6 +34,7 @@ bool Assembler::Translate(vector<Token> tokenLine, unsigned int* instr)
         {
             case Token::WORD:
             {
+                PC += 4;
                 if (i + 1 >= tokenLine.size())
                 {
                     this->PrintToError();
@@ -48,7 +49,7 @@ bool Assembler::Translate(vector<Token> tokenLine, unsigned int* instr)
                     try
                     {
                         int temp = std::stoi(nextTokenLexemme);
-                        *instr = temp < 0? temp & 0xffff : temp;
+                        *instr = temp & 0xffffffff;
                         
                         return true;
                     }
@@ -100,6 +101,7 @@ bool Assembler::Translate(vector<Token> tokenLine, unsigned int* instr)
                 break;
             case Token::ID:
             {
+                PC += 4;
                 string lexemme = tokenLine[i].getLexeme();
                 if (lexemme == "jr" || lexemme == "jalr")
                 {
@@ -108,13 +110,28 @@ bool Assembler::Translate(vector<Token> tokenLine, unsigned int* instr)
                 }
                 else if (this->IsTokenTripleArithmetic(opToken))
                 {
-                    *instr = this->TranslateTripleArithmetoc(tokenLine,i);
+                    *instr = this->TranslateTripleArithmetic(tokenLine,i);
                     return true;
                 }
                 else if (this->IsTokenEquality(opToken))
                 {
-                    *instr = this->TranslateEquality(tokenLine,i);
-                    return true;
+                    bool result = this->TranslateEquality(tokenLine,i, instr);
+                    return result;
+                }
+                else if (this->IsTokenMoves(opToken))
+                {
+                    bool result = this->TranslateMoves(tokenLine, i, instr);
+                    return result;
+                }
+                else if (this->IsTokenDoubleArithmetic(tokenLine[i]))
+                {
+                    bool result = this->TranslateDoubleArithmetic(tokenLine, i,instr);
+                    return result; 
+                }
+                else if (this->IsTokenLoadAndStore(tokenLine[i]))
+                {
+                    bool result = this->TranslateLoadAndStore(tokenLine,i, instr);
+                    return result; 
                 }
             }
                 break;
@@ -151,6 +168,36 @@ bool Assembler::Translate(vector<Token> tokenLine, unsigned int* instr)
     return false;
 }
 
+bool Assembler::TranslateMoves(vector<Token> tokenLine, int i, unsigned int *instr)
+{
+    string op = tokenLine[i].getLexeme();
+    int opCode = 0;
+    int funCode = 0;
+    
+    int *regValue = this->syntaxChecker->GetRegisterValue(tokenLine[i + 1]);
+    
+    if (regValue == NULL) return false;
+    
+    if (op == "lis")
+    {
+        funCode = 20;
+    }
+    else if (op == "mflo")
+    {
+        funCode = 18;
+    }
+    else if (op == "mfhi")
+    {
+        funCode = 16;
+    }
+    else
+    {
+        throw exception();
+    }
+    
+    *instr = (opCode << 16) | (*regValue << 11 ) | (funCode);
+    return true;
+}
 unsigned int Assembler::TranslateJumps(vector<Token> tokenLine, int i)
 {
     string op = tokenLine[i].getLexeme();
@@ -164,7 +211,7 @@ unsigned int Assembler::TranslateJumps(vector<Token> tokenLine, int i)
     return instr;
 }
 
-unsigned int Assembler::TranslateTripleArithmetoc(vector<Token> tokenLine, int i)
+unsigned int Assembler::TranslateTripleArithmetic(vector<Token> tokenLine, int i)
 {
     string op = tokenLine[i].getLexeme();
     int opCode = 0;;
@@ -202,53 +249,157 @@ unsigned int Assembler::TranslateTripleArithmetoc(vector<Token> tokenLine, int i
     return instr;
 }
 
-unsigned int Assembler::TranslateEquality(vector<Token> tokenLine, int i)
+bool Assembler::TranslateDoubleArithmetic(vector<Token> tokenLine, int i, unsigned int *instr)
 {
     string op = tokenLine[i].getLexeme();
-    int opCode = 0;;
+    int opCode = 0;
+    int funCode = 0;
     
     int *s = this->syntaxChecker->GetRegisterValue(tokenLine[i + 1]);
     int *t = this->syntaxChecker->GetRegisterValue(tokenLine[i + 3]);
-    unsigned int instr = -1;
     
-    string lexemme = tokenLine[i + 5].getLexeme();
-    Token::Kind immediateKind = tokenLine[i + 5].getKind();
+    if (s == NULL || t == NULL)
+    {
+        this->PrintToError("Error to do with registers.");
+        return false;
+    }
+    
+    
+    if (op == "mult")
+    {
+        funCode = 24;
+    }
+    else if (op == "multu")
+    {
+        funCode = 25;
+    }
+    else if (op == "div")
+    {
+        funCode = 26;
+    }
+    else if (op == "divu")
+    {
+        funCode = 27;
+    }
+    else
+    {
+        throw exception(); 
+    }
+    
+    *instr = (opCode << 26) | (*s << 21) | (*t << 16) | funCode;
+    return true;
+}
+
+bool Assembler::TranslateLoadAndStore(vector<Token> tokenLine, int i, unsigned int *instr)
+{
+    string op = tokenLine[i].getLexeme();
+    int opCode = 0;
+    
+    int *s = this->syntaxChecker->GetRegisterValue(tokenLine[i + 1]);
+    int *d = this->syntaxChecker->GetRegisterValue(tokenLine[i + 5]);
+    
+    if (s == NULL || d == NULL)
+    {
+        this->PrintToError("Error to do with registers");
+        return false;
+    }
+    
+    Token param = tokenLine[i + 3];
     int immediate = -1;
     
-    if (immediateKind == Token::INT)
+    if (param.getKind() == Token::INT)
     {
-        immediate = std::stoi(lexemme);
+        immediate = std::stoi(param.getLexeme());
+        if (param.getLexeme()[0] == '-')
+        {
+            immediate = immediate & 0xffff;
+        }
     }
-    else if (immediateKind == Token::HEXINT)
+    else if (param.getKind() == Token::HEXINT)
     {
-        immediate = std::stoul(lexemme, 0, 16); 
-    }
-    else if (immediateKind == Token::LABEL)
-    {
-        // do stuff
+        immediate = std::stoul(param.getLexeme(), 0, 16);
     }
     
-    if (op == "bne")
+    if (op == "lw")
     {
-        opCode = 4;
+        opCode = 35;
     }
-    else if (op == "beq")
+    else if (op == "sw")
     {
-        opCode = 5;
+        opCode = 43;
     }
     else
     {
         throw exception();
     }
     
-    // translate
-    if (immediate < 0)
-    {
-        immediate = immediate & 0xffff;
-    }
-    instr = (opCode << 26) | (*s << 21) | (*t << 16) | (immediate);
-    return instr;
+    *instr = (opCode << 26) | (*s << 21) | (*d << 16) | (immediate & 0xffffff);
+    return true;
 }
+
+bool Assembler::TranslateEquality(vector<Token> tokenLine, int i, unsigned int *instr)
+{
+    string op = tokenLine[i].getLexeme();
+    int opCode = 0;;
+    
+    int *s = this->syntaxChecker->GetRegisterValue(tokenLine[i + 1]);
+    int *t = this->syntaxChecker->GetRegisterValue(tokenLine[i + 3]);
+    *instr = -1;
+    
+    string lexemme = tokenLine[i + 5].getLexeme();
+    Token::Kind immediateKind = tokenLine[i + 5].getKind();
+    int immediate = -1;
+   // unsigned int finali = 1;
+    
+    if (immediateKind == Token::INT)
+    {
+        immediate = std::stoi(lexemme);
+        if(lexemme [0] == '-')
+        {
+            immediate = immediate & 0xffff;
+        }
+        
+    }
+    else if (immediateKind == Token::HEXINT)
+    {
+        immediate = std::stoul(lexemme, 0, 16); 
+    }
+    else if (immediateKind == Token::ID)
+    {
+        unsigned int* address = this->symbolTable->GetAddressIfExists(lexemme);
+        if (address == NULL)
+        {
+            this->PrintToError("Label has not been defined before");
+            return false;
+        }
+        immediate = (*address - PC - 4) / 4;
+        
+        if (immediate < -32768 || immediate > 32767)
+        {
+            this->PrintToError("Label offset exceeds limits");
+            return false;
+        }
+        
+    }
+    
+    if (op == "bne")
+    {
+        opCode = 5;
+    }
+    else if (op == "beq")
+    {
+        opCode = 4;
+    }
+    else
+    {
+        throw exception();
+    }
+
+    
+    *instr = (opCode << 26) | (*s << 21) | (*t << 16) | (immediate & 0xffff);
+    return true;
+}
+
 /* HELPERS */
 bool Assembler::IsTokenTripleArithmetic(Token token)
 {
@@ -263,6 +414,22 @@ bool Assembler::IsTokenEquality(Token token)
     return lexemme == "beq" || lexemme == "bne";
 }
 
+bool Assembler::IsTokenDoubleArithmetic(Token token)
+{
+    string lexemme = token.getLexeme();
+    
+    return lexemme == "mult" || lexemme == "multu" || lexemme == "div" || lexemme == "divu";
+}
+bool Assembler::IsTokenLoadAndStore(Token token)
+{
+    string lexemme = token.getLexeme();
+    return lexemme == "lw" || lexemme == "sw";
+}
+bool Assembler::IsTokenMoves(Token token)
+{
+    string lexemme = token.getLexeme();
+    return lexemme == "lis" || lexemme == "mflo" || lexemme == "mfhi"; 
+ }
 /* SYNTAX CHECKER */
 void Assembler::AddTokens(vector<Token> tokenLine)
 {
@@ -286,18 +453,42 @@ bool Assembler::IsSyntaxCorrect(vector<Token> tokenLine)
         {
             case Token::ID:
             {
-                PC += 4;
-
                 string lexemme = tokenLine[i].getLexeme();
                 if (lexemme == "jr" || lexemme == "jalr")
                 {
+                    PC += 4;
                     correctSyntax = this->syntaxChecker->CheckJumpsSyntax(tokenLine, i);
                     return correctSyntax; 
                 }
                 else if (this->IsTokenTripleArithmetic(token))
                 {
+                    PC += 4;
                     correctSyntax = this->syntaxChecker->CheckTripleArithmeticSyntax(tokenLine,i);
                     return correctSyntax;
+                }
+                else if (this->IsTokenEquality(token))
+                {
+                    PC += 4;
+                    correctSyntax = this->syntaxChecker->CheckEquality(tokenLine,i);
+                    return correctSyntax; 
+                }
+                else if (this->IsTokenMoves(tokenLine[i]))
+                {
+                    PC += 4;
+                    correctSyntax = this->syntaxChecker->CheckMovesSyntax(tokenLine, i);
+                    return correctSyntax; 
+                }
+                else if (this->IsTokenDoubleArithmetic(tokenLine[i]))
+                {
+                    PC += 4;
+                    correctSyntax = this->syntaxChecker->CheckDoubleArithmeticSyntax(tokenLine,i);
+                    return correctSyntax;
+                }
+                else if (this->IsTokenLoadAndStore(tokenLine[i]))
+                {
+                    PC += 4;
+                    correctSyntax = this->syntaxChecker->CheckLoadAndStoreSyntax(tokenLine, i);
+                    return correctSyntax; 
                 }
                 
             }
@@ -312,16 +503,8 @@ bool Assembler::IsSyntaxCorrect(vector<Token> tokenLine)
                 
             case Token::LABEL:
             {
-                // add label to symbol table if it is a declaration
-                if (this->syntaxChecker->IsLabelOP(token))
-                {
-                    PC += 4;
-                    // do other stuff
-                }
-                else
-                {
-                    correctSyntax = this->symbolTable->InsertLabel(token, PC);
-                }
+                // add label to symbol table
+                correctSyntax = this->symbolTable->InsertLabel(token, PC);
             }
                 break;
             
@@ -378,9 +561,9 @@ bool Assembler::IsSyntaxCorrect(vector<Token> tokenLine)
     return correctSyntax;
 }
 
-void Assembler::PrintToError()
+void Assembler::PrintToError(string message)
 {
-    std::cerr << "ERROR" << std::endl;
+    std::cerr << "ERROR" << message << std::endl;
     for (auto &printTokenLine: this->Tokens)
     {
         for (auto &printToken: printTokenLine)
@@ -412,6 +595,9 @@ bool Assembler::Analyse()
 // Pass 2: Synthesize() translates labels to addresses, translates vector of token list to machine code
 void Assembler::Synthesize()
 {
+    // reset PC
+    PC = 0;
+    
     for (auto &tokenLine : this->Tokens)
     {
         if (tokenLine.size() == 0)

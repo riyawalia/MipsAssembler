@@ -34,15 +34,25 @@ private:
     bool Translate(vector<Token> tokenLine, unsigned int* instr);
     void OutputMachineCode(unsigned int* instruction);
    // void OutputMachineCode(int* instruction);
-    void PrintToError();
+    void PrintToError(string message = "");
     
     /* Translators */
     unsigned int TranslateJumps(vector<Token> tokenLine, int i);
     
-    unsigned int TranslateTripleArithmetoc(vector<Token> tokenLine, int i);
+    unsigned int TranslateTripleArithmetic(vector<Token> tokenLine, int i);
     bool IsTokenTripleArithmetic(Token token);
     
-    unsigned int TranslateEquality(vector<Token> tokenLine, int i);
+    bool TranslateEquality(vector<Token> tokenLine, int i, unsigned int *instr);
+    
+    bool TranslateMoves(vector<Token> tokenLine, int i, unsigned int *instr);
+    bool IsTokenMoves(Token token);
+    
+    bool TranslateDoubleArithmetic(vector<Token> tokenLine, int i, unsigned int *instr);
+    bool IsTokenDoubleArithmetic(Token token); 
+    
+    bool TranslateLoadAndStore(vector<Token> tokenLine, int i, unsigned int *instr);
+    bool IsTokenLoadAndStore(Token token);
+    
     bool IsTokenEquality(Token token); 
     
     

@@ -90,6 +90,119 @@ bool SyntaxChecker::CheckTripleArithmeticSyntax(vector<Token> tokenLine, int i)
     
     return result;
 }
+bool SyntaxChecker::CheckMovesSyntax(vector<Token> tokenLine, int i)
+{
+    /* ID REG COMMENT*/
+    bool result = ((i + 1) <= tokenLine.size() - 1);
+    
+    for (int j = i + 1; j < tokenLine.size() && result; ++j)
+    {
+        if (j == i + 1)
+        {
+            result = this->GetRegisterValue(tokenLine[j]) != NULL;
+        }
+        else if (j == i + 2)
+        {
+            result = tokenLine[j].getKind() == Token::Kind::COMMENT;
+        }
+        else
+        {
+            result = false;
+        }
+    }
+    
+    return result; 
+}
+
+bool SyntaxChecker::CheckDoubleArithmeticSyntax(vector<Token> tokenLine, int i)
+{
+    /* ID REG COMMA REG COMMENT*/
+    bool result = (i + 3 == tokenLine.size() - 1) || (i + 4 == tokenLine.size() - 1);
+    for (int j = i + 1; j < tokenLine.size() - 1 && result; ++j)
+    {
+        if (j == i + 1 || j == i + 3)
+        {
+            result = this->GetRegisterValue(tokenLine[j]) != NULL;
+        }
+        else if (j == i + 2)
+        {
+            result = tokenLine[j].getKind() == Token::Kind::COMMA;
+        }
+        else if (j == i + 4)
+        {
+            result = tokenLine[i].getKind() == Token::Kind::COMMENT;
+        }
+        else
+        {
+            result = false; 
+        }
+    }
+    
+    return result;
+}
+
+bool SyntaxChecker::CheckLoadAndStoreSyntax(vector<Token> tokenLine, int i)
+{
+    /*ID REG COMMA INT/HEXINT LPAREN REG RPAREN COMMENT*/
+    bool result = i + 6 == tokenLine.size() - 1 || i + 7 == tokenLine.size() - 1;
+    
+    for (int j = i + 1; j < tokenLine.size() && result; ++j)
+    {
+        Token::Kind tokenKind = tokenLine[j].getKind();
+        
+        if (j == i + 1 || j == i + 5)
+        {
+            result = this->GetRegisterValue(tokenLine[j]) != NULL;
+        }
+        else if (j == i + 2)
+        {
+            result = tokenKind == Token::Kind::COMMA;
+        }
+        else if (j == i + 3)
+        {
+           // result = tokenKind == Token::INT || tokenKind == Token::HEXINT;
+            if (tokenKind == Token::INT)
+            {
+                try
+                {
+                    int immediate = std::stoi(tokenLine[j].getLexeme());
+                    result = (immediate >= -32768) && (immediate <= 32767);
+                    
+                }
+                catch (std::out_of_range &e)
+                {
+                    result = false;
+                }
+            }
+            else if (tokenKind == Token::HEXINT)
+            {
+                int immediate = std::stoul(tokenLine[j].getLexeme(), 0, 16);
+                int maxHex = std::stoul("0xffff", 0, 16);
+                
+                result = immediate <= maxHex;
+            }
+            else
+            {
+                result = false;
+            }
+            // do stuff
+        }
+        else if (j == i + 4)
+        {
+            result = tokenKind == Token::LPAREN;
+        }
+        else if (j == i + 6)
+        {
+            result = tokenKind == Token::RPAREN;
+        }
+        else if (j == i + 7)
+        {
+            result = tokenKind == Token::COMMENT;
+        }
+        
+    }
+        return result;
+}
 
 bool SyntaxChecker::CheckEquality(vector<Token> tokenLine, int i)
 {
@@ -131,10 +244,11 @@ bool SyntaxChecker::CheckEquality(vector<Token> tokenLine, int i)
                 
                 result = immediate <= maxHex;
             }
-            else if (tokenKind == Token::Kind::LABEL)
+            else if (tokenKind == Token::Kind::ID)
             {
                 // do stuff
                 result = true;
+                // is checked in translate
             }
             else
             {
