@@ -90,6 +90,65 @@ bool SyntaxChecker::CheckTripleArithmeticSyntax(vector<Token> tokenLine, int i)
     
     return result;
 }
+
+bool SyntaxChecker::CheckEquality(vector<Token> tokenLine, int i)
+{
+    /*ID REG COMMA REG COMMA INT/HEXINT/LABEL COMMENT */
+    bool result = i + 5 ==  tokenLine.size() || i + 6 == tokenLine.size();
+    
+    for (int j = i + 1; j < tokenLine.size() && result == true; ++j)
+    {
+        Token::Kind tokenKind = tokenLine[j].getKind();
+        
+        if (j == i + 1 || j == i + 3)
+        {
+            result = tokenKind == Token::Kind::REG;
+        }
+        else if (j == i + 2 || j == i + 4)
+        {
+            result = tokenKind == Token::Kind::COMMA;
+        }
+        else if (j == i + 5)
+        {
+            int immediate;
+            
+            if (tokenKind == Token::Kind::INT)
+            {
+                try
+                {
+                    immediate = std::stoi(tokenLine[j].getLexeme());
+                }
+                catch (std::out_of_range &e)
+                {
+                    return false;
+                }
+                result = immediate >= -32768 && immediate <= 32767;
+            }
+            else if (tokenKind == Token::Kind::HEXINT)
+            {
+                immediate = std::stoul(tokenLine[j].getLexeme(), 0, 16);
+                int maxHex = std::stoul("0xffff", 0, 16);
+                
+                result = immediate <= maxHex;
+            }
+            else if (tokenKind == Token::Kind::LABEL)
+            {
+                // do stuff
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+        }
+        else if (j == i + 6)
+        {
+            result = tokenKind == Token::Kind::COMMENT;
+        }
+    }
+    
+    return result;
+}
 int* SyntaxChecker::GetRegisterValue(Token reg)
 {
     int * value = new int();

@@ -31,18 +31,18 @@ private:
     
     bool IsSyntaxCorrect(vector<Token> tokenLine);
     
-    bool Translate(vector<Token> tokenLine, int* instr);
-    void OutputMachineCode(int* instruction);
+    bool Translate(vector<Token> tokenLine, unsigned int* instr);
     void OutputMachineCode(unsigned int* instruction);
+   // void OutputMachineCode(int* instruction);
     void PrintToError();
     
     /* Translators */
-    int TranslateJumps(vector<Token> tokenLine, int i);
+    unsigned int TranslateJumps(vector<Token> tokenLine, int i);
     
-    int TranslateTripleArithmetoc(vector<Token> tokenLine, int i);
+    unsigned int TranslateTripleArithmetoc(vector<Token> tokenLine, int i);
     bool IsTokenTripleArithmetic(Token token);
     
-    int TranslateEquality(vector<Token> tokenLine, int i);
+    unsigned int TranslateEquality(vector<Token> tokenLine, int i);
     bool IsTokenEquality(Token token); 
     
     

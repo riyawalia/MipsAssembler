@@ -16,12 +16,6 @@ Assembler::Assembler() : PC{0}
 }
 
 /* OUTPUT */
-void Assembler::OutputMachineCode(int *instruction)
-{
-    int instr = *instruction;
-    std::cout << char(instr >> 24) << char(instr >> 16) << char (instr >> 8) << char(instr);
-}
-
 void Assembler::OutputMachineCode(unsigned int *instruction)
 {
     unsigned int instr = *instruction;
@@ -29,7 +23,7 @@ void Assembler::OutputMachineCode(unsigned int *instruction)
 }
 
 /* TRANSLATORS */
-bool Assembler::Translate(vector<Token> tokenLine, int* instr)
+bool Assembler::Translate(vector<Token> tokenLine, unsigned int* instr)
 {
     for (int i = 0; i < tokenLine.size(); ++i)
     {
@@ -53,7 +47,9 @@ bool Assembler::Translate(vector<Token> tokenLine, int* instr)
                 {
                     try
                     {
-                        *instr = std::stoi(nextTokenLexemme);
+                        int temp = std::stoi(nextTokenLexemme);
+                        *instr = temp < 0? temp & 0xffff : temp;
+                        
                         return true;
                     }
                     catch(std::out_of_range &e)
@@ -155,7 +151,7 @@ bool Assembler::Translate(vector<Token> tokenLine, int* instr)
     return false;
 }
 
-int Assembler::TranslateJumps(vector<Token> tokenLine, int i)
+unsigned int Assembler::TranslateJumps(vector<Token> tokenLine, int i)
 {
     string op = tokenLine[i].getLexeme();
     int opCode = 0;
@@ -163,12 +159,12 @@ int Assembler::TranslateJumps(vector<Token> tokenLine, int i)
     
     int *regValue = this->syntaxChecker->GetRegisterValue(tokenLine[i + 1]);
 
-    int instr = opCode << 26 | *regValue << 21 | funCode;
+    unsigned int instr = opCode << 26 | *regValue << 21 | funCode;
     
     return instr;
 }
 
-int Assembler::TranslateTripleArithmetoc(vector<Token> tokenLine, int i)
+unsigned int Assembler::TranslateTripleArithmetoc(vector<Token> tokenLine, int i)
 {
     string op = tokenLine[i].getLexeme();
     int opCode = 0;;
@@ -178,7 +174,7 @@ int Assembler::TranslateTripleArithmetoc(vector<Token> tokenLine, int i)
     int *s = this->syntaxChecker->GetRegisterValue(tokenLine[i + 3]);
     int *t = this->syntaxChecker->GetRegisterValue(tokenLine[i + 5]);
     
-    int instr = -1;
+    unsigned int instr = -1;
     
     if (op == "add")
     {
@@ -203,6 +199,54 @@ int Assembler::TranslateTripleArithmetoc(vector<Token> tokenLine, int i)
     
     instr = (opCode << 26) | (*s << 21) | (*t << 16) | (*d << 11) | (funCode);
     
+    return instr;
+}
+
+unsigned int Assembler::TranslateEquality(vector<Token> tokenLine, int i)
+{
+    string op = tokenLine[i].getLexeme();
+    int opCode = 0;;
+    
+    int *s = this->syntaxChecker->GetRegisterValue(tokenLine[i + 1]);
+    int *t = this->syntaxChecker->GetRegisterValue(tokenLine[i + 3]);
+    unsigned int instr = -1;
+    
+    string lexemme = tokenLine[i + 5].getLexeme();
+    Token::Kind immediateKind = tokenLine[i + 5].getKind();
+    int immediate = -1;
+    
+    if (immediateKind == Token::INT)
+    {
+        immediate = std::stoi(lexemme);
+    }
+    else if (immediateKind == Token::HEXINT)
+    {
+        immediate = std::stoul(lexemme, 0, 16); 
+    }
+    else if (immediateKind == Token::LABEL)
+    {
+        // do stuff
+    }
+    
+    if (op == "bne")
+    {
+        opCode = 4;
+    }
+    else if (op == "beq")
+    {
+        opCode = 5;
+    }
+    else
+    {
+        throw exception();
+    }
+    
+    // translate
+    if (immediate < 0)
+    {
+        immediate = immediate & 0xffff;
+    }
+    instr = (opCode << 26) | (*s << 21) | (*t << 16) | (immediate);
     return instr;
 }
 /* HELPERS */
@@ -374,7 +418,7 @@ void Assembler::Synthesize()
         {
             continue;
         }
-        int* instr = new int(0);
+        unsigned int* instr = new unsigned int(0);
         bool shouldIOutput = this->Translate(tokenLine, instr);
        // Token::Kind tokenKind = tokenLine[0].getKind();
         
