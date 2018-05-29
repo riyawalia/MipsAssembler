@@ -13,7 +13,7 @@ operand = {ID, WORD, LABELADDRESS};
 | HexBound | | |
 | WordBound | Pass | This is failing because unsigned int_max is not an error, but your program doesn't account for it. |
 |Blank | Pass | |
-|Blind |Pass| No information |
+|Blind |Pass| No information: Did you check for comments? |
 | Public | Pass |  | |
 | BlankLines | Pass | |
 |TooManyInt | Pass | .word 5 5 is wrong |
@@ -22,7 +22,8 @@ operand = {ID, WORD, LABELADDRESS};
 | NoSpace | Pass | |
 | RandomParen | Pass |Be more strict with MIPS command syntax. |
 | MultipleWords |Pass |  |
-| Blind | **FAIL** | But this tests passes in submission #10 | 
+| Blind | **FAIL** | But this tests passes in submission #10 |
+| WordComments | Pass | |
 
 ## Part 2: Add support for label definitions (16/16)
 | Test Name             | Status        | Comments                 |
@@ -37,6 +38,7 @@ operand = {ID, WORD, LABELADDRESS};
 |MultipleLabelsWordError |Pass | |
 | LabelAfterWord | Pass | |
 | ManyLabelsManyWords | Pass| Multiple words work when labels are in between them. |
+| Label Comments | | |
 ## Part 3: Add support for label as operands (11/16)
 | Test Name             | Status        | Comments                 |
 | ----------                | ------           | ----------                           |
@@ -55,4 +57,8 @@ operand = {ID, WORD, LABELADDRESS};
 |JumpAndLink| Pass | |
 |Register| Pass | |
 
-## Part 5: Add support for add, sub, slt, multuW
+## Part 5: Add support for add, sub, slt, multu (4/8)
+| Test Name             | Status        | Comments                 |
+| ----------                | ------           | ----------                           |
+|AddSubSltSltu | Pass | Public Test |
+|Blind | **FAIL** | |

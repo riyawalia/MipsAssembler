@@ -38,7 +38,12 @@ private:
     
     /* Translators */
     int TranslateJumps(vector<Token> tokenLine, int i);
-    int TranslateTripleArithmetoc(vector<Token> tokenLine, int i); 
+    
+    int TranslateTripleArithmetoc(vector<Token> tokenLine, int i);
+    bool IsTokenTripleArithmetic(Token token);
+    
+    int TranslateEquality(vector<Token> tokenLine, int i);
+    bool IsTokenEquality(Token token); 
     
     
     

@@ -110,6 +110,16 @@ bool Assembler::Translate(vector<Token> tokenLine, int* instr)
                     *instr = this->TranslateJumps(tokenLine, i);
                     return true;
                 }
+                else if (this->IsTokenTripleArithmetic(opToken))
+                {
+                    *instr = this->TranslateTripleArithmetoc(tokenLine,i);
+                    return true;
+                }
+                else if (this->IsTokenEquality(opToken))
+                {
+                    *instr = this->TranslateEquality(tokenLine,i);
+                    return true;
+                }
             }
                 break;
             case Token::LABEL:
@@ -157,7 +167,57 @@ int Assembler::TranslateJumps(vector<Token> tokenLine, int i)
     
     return instr;
 }
+
+int Assembler::TranslateTripleArithmetoc(vector<Token> tokenLine, int i)
+{
+    string op = tokenLine[i].getLexeme();
+    int opCode = 0;;
+    int funCode = -1;
+    
+    int *d = this->syntaxChecker->GetRegisterValue(tokenLine[i + 1]);
+    int *s = this->syntaxChecker->GetRegisterValue(tokenLine[i + 3]);
+    int *t = this->syntaxChecker->GetRegisterValue(tokenLine[i + 5]);
+    
+    int instr = -1;
+    
+    if (op == "add")
+    {
+        funCode = 32;
+    }
+    else if (op == "sub")
+    {
+        funCode = 34;
+    }
+    else if (op == "slt")
+    {
+        funCode = 42;
+    }
+    else if (op == "sltu")
+    {
+        funCode = 43;
+    }
+    else
+    {
+        throw exception();
+    }
+    
+    instr = (opCode << 26) | (*s << 21) | (*t << 16) | (*d << 11) | (funCode);
+    
+    return instr;
+}
 /* HELPERS */
+bool Assembler::IsTokenTripleArithmetic(Token token)
+{
+    string lexemme = token.getLexeme();
+    
+    return (lexemme == "add" || lexemme == "sub" || lexemme == "slt" || lexemme == "sltu");
+}
+
+bool Assembler::IsTokenEquality(Token token)
+{
+    string lexemme = token.getLexeme();
+    return lexemme == "beq" || lexemme == "bne";
+}
 
 /* SYNTAX CHECKER */
 void Assembler::AddTokens(vector<Token> tokenLine)
@@ -189,6 +249,11 @@ bool Assembler::IsSyntaxCorrect(vector<Token> tokenLine)
                 {
                     correctSyntax = this->syntaxChecker->CheckJumpsSyntax(tokenLine, i);
                     return correctSyntax; 
+                }
+                else if (this->IsTokenTripleArithmetic(token))
+                {
+                    correctSyntax = this->syntaxChecker->CheckTripleArithmeticSyntax(tokenLine,i);
+                    return correctSyntax;
                 }
                 
             }

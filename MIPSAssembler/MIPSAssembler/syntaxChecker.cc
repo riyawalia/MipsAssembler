@@ -64,6 +64,32 @@ bool SyntaxChecker::CheckJumpsSyntax(vector<Token> tokenLine, int i)
     return result;
 }
 
+bool SyntaxChecker::CheckTripleArithmeticSyntax(vector<Token> tokenLine, int i)
+{
+    /* ID REG COMMA REG COMMA REG COMMENT*/
+    bool result = i + 5 ==  tokenLine.size() || i + 6 == tokenLine.size();
+    
+    for (int j = i + 1; j < tokenLine.size() && result == true; ++j)
+    {
+        Token token = tokenLine[j];
+        Token::Kind tokenKind = token.getKind();
+        
+        if (j == i + 1 || j == i + 3 || j == i + 5 )
+        {
+            result = this->GetRegisterValue(token) != NULL;
+        }
+        else if (j == i + 6)
+        {
+            result = tokenKind == Token::Kind::COMMENT;
+        }
+        else
+        {
+            result = tokenKind == Token::Kind::COMMA;
+        }
+    }
+    
+    return result;
+}
 int* SyntaxChecker::GetRegisterValue(Token reg)
 {
     int * value = new int();

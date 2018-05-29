@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/asm.cc"
-            timestampString = "549254193.292076"
+            timestampString = "549257993.931"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "47"
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/assembler.cc"
-            timestampString = "549254193.292704"
+            timestampString = "549257993.9317811"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
-            landmarkName = "Assembler::Analyse()"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
+            landmarkName = "Assembler::PrintToError()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -42,27 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/assembler.cc"
-            timestampString = "549254193.294631"
+            timestampString = "549257993.933575"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
-            landmarkName = "Assembler::IsSyntaxCorrect(vector&lt;Token&gt; tokenLine)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MIPSAssembler/assembler.cc"
-            timestampString = "549254193.295557"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "251"
+            endingLineNumber = "251"
             landmarkName = "Assembler::IsSyntaxCorrect(vector&lt;Token&gt; tokenLine)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/assembler.cc"
-            timestampString = "549254193.296347"
+            timestampString = "549257993.934751"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
             landmarkName = "Assembler::IsSyntaxCorrect(vector&lt;Token&gt; tokenLine)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +74,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/assembler.cc"
-            timestampString = "549254193.297114"
+            timestampString = "549257993.936113"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
+            landmarkName = "Assembler::PrintToError()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MIPSAssembler/assembler.cc"
+            timestampString = "549257993.937134"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "348"
+            endingLineNumber = "348"
+            landmarkName = "Assembler::PrintToError()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MIPSAssembler/assembler.cc"
+            timestampString = "549257993.938195"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "353"
+            endingLineNumber = "353"
             landmarkName = "Assembler::Analyse()"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,43 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/assembler.cc"
-            timestampString = "549254193.297879"
+            timestampString = "549257993.939262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "295"
-            endingLineNumber = "295"
-            landmarkName = "Assembler::Analyse()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MIPSAssembler/assembler.cc"
-            timestampString = "549254193.298571"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
-            landmarkName = "Assembler::Analyse()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MIPSAssembler/assembler.cc"
-            timestampString = "549254193.299244"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "251"
+            endingLineNumber = "251"
             landmarkName = "Assembler::IsSyntaxCorrect(vector&lt;Token&gt; tokenLine)"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,7 +138,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/syntaxChecker.cc"
-            timestampString = "549254193.300221"
+            timestampString = "549257993.940446"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "39"
@@ -170,7 +154,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/syntaxChecker.cc"
-            timestampString = "549254193.3012201"
+            timestampString = "549257993.941061"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "41"
@@ -186,7 +170,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/syntaxChecker.cc"
-            timestampString = "549254193.3017631"
+            timestampString = "549257993.941442"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "53"
@@ -202,7 +186,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/asm.cc"
-            timestampString = "549254193.302297"
+            timestampString = "549257993.941823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "41"
@@ -218,7 +202,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/asm.cc"
-            timestampString = "549254193.302582"
+            timestampString = "549257993.9420559"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
@@ -234,7 +218,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/assembler.cc"
-            timestampString = "549254193.302801"
+            timestampString = "549257993.942296"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "22"
@@ -250,7 +234,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/assembler.cc"
-            timestampString = "549254193.3033251"
+            timestampString = "549257993.943071"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "28"
@@ -266,11 +250,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/assembler.cc"
-            timestampString = "549254193.303955"
+            timestampString = "549257993.944033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "314"
-            endingLineNumber = "314"
+            startingLineNumber = "367"
+            endingLineNumber = "367"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MIPSAssembler/assembler.cc"
+            timestampString = "549257993.944862"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "370"
+            endingLineNumber = "370"
             landmarkName = "Assembler::Synthesize()"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,28 +282,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/assembler.cc"
-            timestampString = "549254193.304444"
+            timestampString = "549257993.94574"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "317"
-            endingLineNumber = "317"
-            landmarkName = "Assembler::Synthesize()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MIPSAssembler/assembler.cc"
-            timestampString = "549254193.3049231"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "313"
-            endingLineNumber = "313"
-            landmarkName = "Assembler::Synthesize()"
+            startingLineNumber = "366"
+            endingLineNumber = "366"
+            landmarkName = "Assembler::Analyse()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -314,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/syntaxChecker.cc"
-            timestampString = "549254193.305565"
+            timestampString = "549257993.946499"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
             landmarkName = "SyntaxChecker::CheckInstructionFormat(vector&lt;Token&gt; tokenLine)"
             landmarkType = "7">
          </BreakpointContent>
@@ -330,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/syntaxChecker.cc"
-            timestampString = "549254193.30617"
+            timestampString = "549257993.946769"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "SyntaxChecker::CheckInstructionFormat(vector&lt;Token&gt; tokenLine)"
             landmarkType = "7">
          </BreakpointContent>
@@ -346,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/syntaxChecker.cc"
-            timestampString = "549254193.306726"
+            timestampString = "549257993.94714"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "SyntaxChecker::CheckInstructionFormat(vector&lt;Token&gt; tokenLine)"
             landmarkType = "7">
          </BreakpointContent>
@@ -362,11 +346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/syntaxChecker.cc"
-            timestampString = "549254193.3071491"
+            timestampString = "549257993.94745"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
             landmarkName = "SyntaxChecker::CheckInstructionFormat(vector&lt;Token&gt; tokenLine)"
             landmarkType = "7">
          </BreakpointContent>
@@ -378,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/syntaxChecker.cc"
-            timestampString = "549254193.307663"
+            timestampString = "549257993.9477071"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
             landmarkName = "SyntaxChecker::CheckInstructionFormat(vector&lt;Token&gt; tokenLine)"
             landmarkType = "7">
          </BreakpointContent>
@@ -394,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/syntaxChecker.cc"
-            timestampString = "549254193.308216"
+            timestampString = "549257993.947964"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "SyntaxChecker::CheckInstructionFormat(vector&lt;Token&gt; tokenLine)"
             landmarkType = "7">
             <Locations>
@@ -410,11 +394,11 @@
                   moduleName = "MIPSAssembler"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/riyawalia/Documents/Academia/2B/CS241/Assignments/Assignment3/MIPSAssembler/MIPSAssembler/syntaxChecker.cc"
-                  timestampString = "549254193.753729"
+                  timestampString = "549257994.490476"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "139"
-                  endingLineNumber = "139"
+                  startingLineNumber = "169"
+                  endingLineNumber = "169"
                   offsetFromSymbolStart = "1384">
                </Location>
                <Location
@@ -425,11 +409,11 @@
                   moduleName = "MIPSAssembler"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/riyawalia/Documents/Academia/2B/CS241/Assignments/Assignment3/MIPSAssembler/MIPSAssembler/syntaxChecker.cc"
-                  timestampString = "549254193.755971"
+                  timestampString = "549257994.493009"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "139"
-                  endingLineNumber = "139"
+                  startingLineNumber = "169"
+                  endingLineNumber = "169"
                   offsetFromSymbolStart = "1389">
                </Location>
             </Locations>
@@ -442,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/syntaxChecker.cc"
-            timestampString = "549254193.308691"
+            timestampString = "549257993.948221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
             landmarkName = "SyntaxChecker::CheckInstructionFormat(vector&lt;Token&gt; tokenLine)"
             landmarkType = "7">
          </BreakpointContent>
@@ -458,7 +442,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/syntaxChecker.cc"
-            timestampString = "549254193.309158"
+            timestampString = "549257993.948467"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "49"
@@ -474,7 +458,7 @@
                   moduleName = "MIPSAssembler"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/riyawalia/Documents/Academia/2B/CS241/Assignments/Assignment3/MIPSAssembler/MIPSAssembler/syntaxChecker.cc"
-                  timestampString = "549254193.766443"
+                  timestampString = "549257994.515312"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "49"
@@ -489,7 +473,7 @@
                   moduleName = "MIPSAssembler"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/riyawalia/Documents/Academia/2B/CS241/Assignments/Assignment3/MIPSAssembler/MIPSAssembler/syntaxChecker.cc"
-                  timestampString = "549254193.768526"
+                  timestampString = "549257994.51823"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "49"
@@ -506,7 +490,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/syntaxChecker.cc"
-            timestampString = "549254193.309774"
+            timestampString = "549257993.948696"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "52"
@@ -522,7 +506,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/syntaxChecker.cc"
-            timestampString = "549254193.310271"
+            timestampString = "549257993.948921"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "57"
@@ -538,12 +522,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/assembler.cc"
-            timestampString = "549254193.3106771"
+            timestampString = "549257993.949129"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
-            landmarkName = "Assembler::TranslateJumps(vector&lt;Token&gt; tokenLine, int i)"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
+            landmarkName = "Assembler::Translate(vector&lt;Token&gt; tokenLine, int* instr)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -554,11 +538,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/assembler.cc"
-            timestampString = "549254193.31108"
+            timestampString = "549257993.949681"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
             landmarkName = "Assembler::TranslateJumps(vector&lt;Token&gt; tokenLine, int i)"
             landmarkType = "7">
          </BreakpointContent>
@@ -570,12 +554,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/syntaxChecker.cc"
-            timestampString = "549254193.311419"
+            timestampString = "549257993.950305"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
-            landmarkName = "SyntaxChecker::GetRegisterValue(Token reg, int* value)"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "SyntaxChecker::GetRegisterValue(Token reg)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -586,12 +570,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MIPSAssembler/syntaxChecker.cc"
-            timestampString = "549254193.311746"
+            timestampString = "549257993.950513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "SyntaxChecker::GetRegisterValue(Token reg, int* value)"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "SyntaxChecker::GetRegisterValue(Token reg)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MIPSAssembler/assembler.cc"
+            timestampString = "549257993.9507149"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
+            landmarkName = "Assembler::TranslateTripleArithmetoc(vector&lt;Token&gt; tokenLine, int i)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -33,6 +33,7 @@ public:
     bool CheckRegSyntax(vector<Token> tokenLine, int i);
     bool CheckJumpsSyntax(vector<Token> tokenLine, int i);
     bool CheckTripleArithmeticSyntax(vector<Token> tokenLine, int i);
+    bool CheckEquality(vector<Token> tokenLine, int i); 
     
     int* GetRegisterValue(Token reg);
 };
