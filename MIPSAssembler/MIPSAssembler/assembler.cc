@@ -156,14 +156,8 @@ bool Assembler::Translate(vector<Token> tokenLine, unsigned int* instr)
             }
                 break;
             case Token::LABEL:
-            {
-                // need to translate to address later?
-            }
                 break;
             case Token::INT:
-            {
-                // for now
-            }
                 break;
             case Token::COMMA:
                 break;

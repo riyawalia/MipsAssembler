@@ -4,12 +4,9 @@ string correctFormat = labelDefinition(s) operand comma [parameters] comment;
 operand = {ID, WORD, LABELADDRESS};
 ```
 
-## To Do
-* Check hex bounds
-* Test each set of instructions for comments
 
 # Tests
-## Part 1: Add support for .word (11/16)
+## Part 1: Add support for .word (15/16)
 | Test Name             | Status        | Comments                 |
 | ----------                | ------           | ----------                           |
 | BiggerThanMax     | Pass
@@ -26,7 +23,7 @@ operand = {ID, WORD, LABELADDRESS};
 | NoSpace | Pass | |
 | RandomParen | Pass |Be more strict with MIPS command syntax. |
 | MultipleWords |Pass |  |
-| Blind | **FAIL** | But this tests passes in submission #10: 5 points |
+| Blind | Pass | But this tests passes in submission #10: 5 points |
 | WordComments | Pass | |
 
 ## Part 2: Add support for label definitions (16/16)
@@ -43,35 +40,35 @@ operand = {ID, WORD, LABELADDRESS};
 | LabelAfterWord | Pass | |
 | ManyLabelsManyWords | Pass| Multiple words work when labels are in between them. |
 | Label Comments | | |
-## Part 3: Add support for label as operands (11/16)
+## Part 3: Add support for label as operands (16/16)
 | Test Name             | Status        | Comments                 |
 | ----------                | ------           | ----------                           |
 | LabelWord | Pass | Public Test|
 |LabelAfterWord | Pass | |
 |LabelsAndWords | Pass | |
-| Blind | **FAIL**| 5 points|
+| Blind | Pass| 5 points|
 |LabelLabelOnlly | | label: otherlabel |
 
-## Part 4: Add support for jr and jalr (4/8)
+## Part 4: Add support for jr and jalr (8/8)
 | Test Name             | Status        | Comments                 |
 | ----------                | ------           | ----------                           |
 |JrJalr |Pass | Public test |
-|Blind |**FAIL** | 4 points|
+|Blind |Pass | 4 points|
 |Jump| Pass | |
 |JumpAndLink| Pass | |
 |Register| Pass | |
 
-## Part 5: Add support for add, sub, slt, multu (6/8)
+## Part 5: Add support for add, sub, slt, multu (8/8)
 | Test Name             | Status        | Comments                 |
 | ----------                | ------           | ----------                           |
 |AddSubSltSltu | Pass | Public Test |
-|Blind | **FAIL** | 2 points|
+|Blind | Pass | 2 points|
 
 ## Part 6: Add support for bne and beq without label offsets
 | Test Name             | Status        | Comments                 |
 | ----------                | ------           | ----------                           |
 |beq | Pass |  |
 |bne | Pass | |
-|BeqBne|**FAIL** | Public Test|
-|PublicBne| **FAIL** | Not working for negative offsets.|
-|Blind | **FAIL** |  points|
+|BeqBne|Pass | Public Test|
+|PublicBne| Pass | Not working for negative offsets.|
+|Blind | Pass |  points|
