@@ -25,6 +25,7 @@ void Assembler::OutputMachineCode(unsigned int *instruction)
 /* TRANSLATORS */
 bool Assembler::Translate(vector<Token> tokenLine, unsigned int* instr)
 {
+    *instr = 0;
     for (int i = 0; i < tokenLine.size(); ++i)
     {
         Token opToken = tokenLine[i];
@@ -49,7 +50,7 @@ bool Assembler::Translate(vector<Token> tokenLine, unsigned int* instr)
                     try
                     {
                         int temp = std::stoi(nextTokenLexemme);
-                        *instr = temp & 0xffffffff;
+                        *instr = nextTokenLexemme[0] == '-'? temp & 0xffffffff : temp;
                         
                         return true;
                     }
@@ -72,7 +73,12 @@ bool Assembler::Translate(vector<Token> tokenLine, unsigned int* instr)
                 }
                 else if (nextTokenKind == Token::HEXINT)
                 {
+                    if (false == this->syntaxChecker->IsHexValid(nextTokenLexemme))
+                    {
+                        return false;
+                    }
                     *instr = (int) std::stoul(nextTokenLexemme, 0, 16);
+                    
                     return true; 
                 }
                 else if(nextTokenKind == Token::ID)
@@ -137,6 +143,15 @@ bool Assembler::Translate(vector<Token> tokenLine, unsigned int* instr)
                     PC += 4;
                     bool result = this->TranslateLoadAndStore(tokenLine,i, instr);
                     return result; 
+                }
+                else
+                {
+                    if (i == 0)
+                    {
+                        this->PrintToError();
+                        return false;
+                    }
+                    
                 }
             }
                 break;
@@ -300,8 +315,8 @@ bool Assembler::TranslateLoadAndStore(vector<Token> tokenLine, int i, unsigned i
     string op = tokenLine[i].getLexeme();
     int opCode = 0;
     
-    int *s = this->syntaxChecker->GetRegisterValue(tokenLine[i + 1]);
-    int *d = this->syntaxChecker->GetRegisterValue(tokenLine[i + 5]);
+    int *d = this->syntaxChecker->GetRegisterValue(tokenLine[i + 1]);
+    int *s = this->syntaxChecker->GetRegisterValue(tokenLine[i + 5]);
     
     if (s == NULL || d == NULL)
     {
@@ -315,10 +330,10 @@ bool Assembler::TranslateLoadAndStore(vector<Token> tokenLine, int i, unsigned i
     if (param.getKind() == Token::INT)
     {
         immediate = std::stoi(param.getLexeme());
-        if (param.getLexeme()[0] == '-')
-        {
+       // if (param.getLexeme()[0] == '-')
+        //{
             immediate = immediate & 0xffff;
-        }
+       // }
     }
     else if (param.getKind() == Token::HEXINT)
     {
@@ -338,7 +353,7 @@ bool Assembler::TranslateLoadAndStore(vector<Token> tokenLine, int i, unsigned i
         throw exception();
     }
     
-    *instr = (opCode << 26) | (*s << 21) | (*d << 16) | (immediate & 0xffffff);
+    *instr = (opCode << 26) | (*s << 21) | (*d << 16) | (immediate);
     return true;
 }
 
@@ -367,7 +382,12 @@ bool Assembler::TranslateEquality(vector<Token> tokenLine, int i, unsigned int *
     }
     else if (immediateKind == Token::HEXINT)
     {
-        immediate = std::stoul(lexemme, 0, 16); 
+        string maxHex = "0xffff";
+        if (this->syntaxChecker->IsHexValid(lexemme, maxHex) == false)
+        {
+            return false;
+        }
+        immediate = std::stoul(lexemme, 0, 16);
     }
     else if (immediateKind == Token::ID)
     {
@@ -495,7 +515,6 @@ bool Assembler::IsSyntaxCorrect(vector<Token> tokenLine)
                     correctSyntax = this->syntaxChecker->CheckLoadAndStoreSyntax(tokenLine, i);
                     return correctSyntax; 
                 }
-                
             }
                 break;
                 

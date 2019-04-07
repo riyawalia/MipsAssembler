@@ -1,0 +1,29 @@
+#!/bin/bash
+red=`tput setaf 1`
+green=`tput setaf 2`
+reset=`tput sgr0` 
+numFailed=0
+for testName in $(cat tests/suite.txt) do
+	
+	./asm < tests/testName.asm > tests/testName.mips 2>tests/error.txt
+	
+	cmp "tests/expected/testName.mips" "tests/testName.mips"
+	echo "---------------------------------------------------------------------"
+	if [ ${?} -ne 0 ]; then
+        
+        	echo -e "${red} ${testName}  FAILED ${reset}"
+        	echo "INPUT"
+        	echo $(cat tests/testName.asm)
+        	echo "OUTPUT:"
+        	echo $(xxd tests/testName.mips)
+        	echo "EXPECTED:"
+        	echo $(xxd "tests/expected/testName.mips")
+		((numFailed++))
+	else
+        	echo -e "${green} ${testName} PASSED ${reset}"
+        fi
+	echo "STDERR:"
+	echo $(cat tests/error.txt)
+	echo "---------------------------------------------------------------------"
+done
+echo -e "# OF TESTS FAILED: ${numFailed}"

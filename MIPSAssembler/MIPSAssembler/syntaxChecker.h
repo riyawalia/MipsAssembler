@@ -36,7 +36,8 @@ public:
     bool CheckEquality(vector<Token> tokenLine, int i);
     bool CheckMovesSyntax(vector<Token> tokenLine, int i);
     bool CheckDoubleArithmeticSyntax(vector<Token> tokenLine, int i);
-    bool CheckLoadAndStoreSyntax(vector<Token> tokenLine, int i); 
+    bool CheckLoadAndStoreSyntax(vector<Token> tokenLine, int i);
+    bool IsHexValid(string first, string second = "0xffffffff"); 
     
     int* GetRegisterValue(Token reg);
 };

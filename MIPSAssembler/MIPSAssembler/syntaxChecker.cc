@@ -8,6 +8,26 @@
 
 #include "syntaxChecker.h"
 
+bool SyntaxChecker::IsHexValid(string first, string second)
+{
+    int len1 = first.length();
+    int len2 = second.length();
+    
+    if (len1 > len2 || len1 < 3)
+    {
+        return false;
+    }
+    bool result = first[0] == '0' && first[1] == '1';
+    
+    for (int i = 2; i < len1 && result; ++i)
+    {
+        result = (first[i] >= '0' && first[i] <= '9') ||
+                   ( first[i] >= 'a' && first[i] <= 'f') ||
+                    (first[i] >= 'A' && first[i] <= 'f');
+    }
+    return true;
+}
+
 bool SyntaxChecker::IsLabelOP(Token label)
 {
     if (label.getKind() != Token::LABEL)
@@ -36,29 +56,38 @@ bool SyntaxChecker::IsTokenOP(Token token)
 bool SyntaxChecker::CheckWordSyntax(vector<Token> tokenLine, int i)
 {
     // Correct Syntax: .WORD INT/HEXINT
-    bool correctSyntax = (i + 1 < tokenLine.size());
+    bool result = (i + 1 == tokenLine.size() - 1) || (i + 2 == tokenLine.size() - 1);
     
-    if (correctSyntax)
+    for (int j = i + 1; j < tokenLine.size() && result; ++j)
     {
-        Token nextToken = tokenLine[i + 1];
-        Token::Kind nextTokenKind = nextToken.getKind();
-        
-        correctSyntax = ((nextTokenKind == Token::ID) || (nextTokenKind == Token::INT) || (nextTokenKind == Token::HEXINT));
-        // if comment, then last
-        correctSyntax = (i + 3 < tokenLine.size())?  tokenLine[i + 3].getKind() == Token::COMMENT : correctSyntax;
+        Token::Kind tokenKind = tokenLine[j].getKind();
+        if (j == i + 1)
+        {
+            result = tokenKind == Token::ID || tokenKind == Token::INT || tokenKind == Token::HEXINT;
+        }
+        else if (j == i + 2)
+        {
+            result = tokenKind == Token::COMMENT;
+        }
     }
     
-    
-    return correctSyntax;
+    return result;
 }
 
 bool SyntaxChecker::CheckJumpsSyntax(vector<Token> tokenLine, int i)
 {
-    bool result = (i + 1 == tokenLine.size() - 1);
-    if (result)
+    bool result = (i + 1 == tokenLine.size() - 1) || (i + 2 == tokenLine.size() - 1);
+    
+    for (int j = i + 1; j < tokenLine.size() && result; ++j)
     {
-        int *reg = this->GetRegisterValue(tokenLine[i + 1]);
-        result = reg != NULL; 
+        if (j == i + 1)
+        {
+            result = this->GetRegisterValue(tokenLine[j]) != NULL;
+        }
+        else if (j == i + 2)
+        {
+            result = tokenLine[j].getKind() == Token::COMMENT;
+        }
     }
     
     return result;
@@ -67,7 +96,7 @@ bool SyntaxChecker::CheckJumpsSyntax(vector<Token> tokenLine, int i)
 bool SyntaxChecker::CheckTripleArithmeticSyntax(vector<Token> tokenLine, int i)
 {
     /* ID REG COMMA REG COMMA REG COMMENT*/
-    bool result = i + 5 ==  tokenLine.size() || i + 6 == tokenLine.size();
+    bool result = i + 5 ==  tokenLine.size() - 1 || i + 6 == tokenLine.size() - 1;
     
     for (int j = i + 1; j < tokenLine.size() && result == true; ++j)
     {
@@ -82,7 +111,7 @@ bool SyntaxChecker::CheckTripleArithmeticSyntax(vector<Token> tokenLine, int i)
         {
             result = tokenKind == Token::Kind::COMMENT;
         }
-        else
+        else if (j == i + 2 || j == i + 4)
         {
             result = tokenKind == Token::Kind::COMMA;
         }
@@ -93,7 +122,7 @@ bool SyntaxChecker::CheckTripleArithmeticSyntax(vector<Token> tokenLine, int i)
 bool SyntaxChecker::CheckMovesSyntax(vector<Token> tokenLine, int i)
 {
     /* ID REG COMMENT*/
-    bool result = ((i + 1) <= tokenLine.size() - 1);
+    bool result = ((i + 1) == tokenLine.size() - 1) || i + 2 == tokenLine.size() - 1;
     
     for (int j = i + 1; j < tokenLine.size() && result; ++j)
     {
@@ -118,7 +147,8 @@ bool SyntaxChecker::CheckDoubleArithmeticSyntax(vector<Token> tokenLine, int i)
 {
     /* ID REG COMMA REG COMMENT*/
     bool result = (i + 3 == tokenLine.size() - 1) || (i + 4 == tokenLine.size() - 1);
-    for (int j = i + 1; j < tokenLine.size() - 1 && result; ++j)
+    
+    for (int j = i + 1; j < tokenLine.size() && result; ++j)
     {
         if (j == i + 1 || j == i + 3)
         {
@@ -131,10 +161,6 @@ bool SyntaxChecker::CheckDoubleArithmeticSyntax(vector<Token> tokenLine, int i)
         else if (j == i + 4)
         {
             result = tokenLine[i].getKind() == Token::Kind::COMMENT;
-        }
-        else
-        {
-            result = false; 
         }
     }
     
@@ -160,7 +186,6 @@ bool SyntaxChecker::CheckLoadAndStoreSyntax(vector<Token> tokenLine, int i)
         }
         else if (j == i + 3)
         {
-           // result = tokenKind == Token::INT || tokenKind == Token::HEXINT;
             if (tokenKind == Token::INT)
             {
                 try
@@ -207,7 +232,7 @@ bool SyntaxChecker::CheckLoadAndStoreSyntax(vector<Token> tokenLine, int i)
 bool SyntaxChecker::CheckEquality(vector<Token> tokenLine, int i)
 {
     /*ID REG COMMA REG COMMA INT/HEXINT/LABEL COMMENT */
-    bool result = i + 5 ==  tokenLine.size() || i + 6 == tokenLine.size();
+    bool result = i + 5 ==  tokenLine.size() - 1|| i + 6 == tokenLine.size() - 1;
     
     for (int j = i + 1; j < tokenLine.size() && result == true; ++j)
     {
@@ -263,6 +288,7 @@ bool SyntaxChecker::CheckEquality(vector<Token> tokenLine, int i)
     
     return result;
 }
+
 int* SyntaxChecker::GetRegisterValue(Token reg)
 {
     int * value = new int();
