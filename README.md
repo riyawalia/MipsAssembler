@@ -1,3 +1,12 @@
+# MIPS Assembler 
+Assembles MIPS instructions to assembly language. 
+## Install 
+git clone https://github.com/riyawalia/MipsAssembler
+## Run 
+`make`
+`.\asm < instructions.mips > output.asm`
+## Test
+`./runSuite suite.txt ./asm`
 ## Instruction format
 ```c
 string correctFormat = labelDefinition(s) operand comma [parameters] comment;
@@ -5,7 +14,7 @@ operand = {ID, WORD, LABELADDRESS};
 ```
 
 
-# Tests
+## Tests
 ## Part 1: Add support for .word (15/16)
 | Test Name             | Status        | Comments                 |
 | ----------                | ------           | ----------                           |
