@@ -4,10 +4,11 @@ Assembles MIPS instructions to assembly language.
 git clone https://github.com/riyawalia/MipsAssembler
 ## Run 
 `make`
+
 `.\asm < instructions.mips > output.asm`
 ## Test
 `./runSuite suite.txt ./asm`
-## Instruction format
+## Supported MIPS Instruction Format
 ```c
 string correctFormat = labelDefinition(s) operand comma [parameters] comment;
 operand = {ID, WORD, LABELADDRESS};
@@ -15,7 +16,7 @@ operand = {ID, WORD, LABELADDRESS};
 
 
 ## Tests
-## Part 1: Add support for .word (15/16)
+## Part 1: Add support for .word (16/16)
 | Test Name             | Status        | Comments                 |
 | ----------                | ------           | ----------                           |
 | BiggerThanMax     | Pass
@@ -56,7 +57,7 @@ operand = {ID, WORD, LABELADDRESS};
 |LabelAfterWord | Pass | |
 |LabelsAndWords | Pass | |
 | Blind | Pass| 5 points|
-|LabelLabelOnlly | | label: otherlabel |
+|LabelLabelOnlly | Pass | label: otherlabel |
 
 ## Part 4: Add support for jr and jalr (8/8)
 | Test Name             | Status        | Comments                 |
@@ -79,5 +80,5 @@ operand = {ID, WORD, LABELADDRESS};
 |beq | Pass |  |
 |bne | Pass | |
 |BeqBne|Pass | Public Test|
-|PublicBne| Pass | Not working for negative offsets.|
+|PublicBne| Pass | |
 |Blind | Pass |  points|
